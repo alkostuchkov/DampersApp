@@ -1,0 +1,29 @@
+<HomeScreen>:
+    BoxLayout:
+        orientation: "vertical"
+        MyToolbar:
+            title: "Dampers"
+            right_action_items:
+                [\
+#                ["magnify", lambda x: MDDropdownMenu(items=app.search_menu_items, width_mult=4).open(self)],\
+                ["magnify", lambda x: None],\
+                ["sort-variant", lambda x: MDDropdownMenu(items=app.sort_menu_items, width_mult=4).open(self)],\
+                ["dots-vertical", lambda x: MDDropdownMenu(items=app.toolbar_menu_items, width_mult=4).open(self)]\
+                ]
+            left_action_items:
+                [["menu", lambda x: None]]
+#                [["menu", lambda x: app.change_search_icon()]]
+        MDTextFieldRound:
+            id: tf_search
+#                size_hint_y: .08
+            hint_text: "Search"
+            font_size: dp(20)
+            icon_left: "magnify"
+            normal_color: app.theme_cls.primary_color
+#            disabled: True
+            on_text: app.search_text_changed(self.text.strip())
+        GridLayout:
+            cols: 1
+            ScrollView:
+                MDList:
+                    id: dampers_container

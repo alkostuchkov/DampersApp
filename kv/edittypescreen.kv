@@ -1,0 +1,30 @@
+<EditTypeScreen>:
+    tf_type: tf_type
+
+    BoxLayout:
+        orientation: "vertical"
+        MyToolbar:
+            size_hint_y: .1
+            title: "Edit type"
+            left_action_items:
+                [["arrow-left", lambda x: app.change_screen("home_screen")]]
+        GridLayout:
+            cols: 1
+            padding: dp(7)
+            spacing: dp(5)
+            MDTextField:
+                id: tf_type
+                hint_text: "Type of damper"
+                required: True
+                helper_text: "Can't be empty"
+                helper_text_mode: "on_error"
+            FloatLayout:
+                spacing: dp(3)
+                MDRaisedButton:
+                    pos_hint: {"right": .45, "top": 1}
+                    text: "Edit"
+                    on_release: root.edit_type(tf_type.text.strip())
+                MDRaisedButton:
+                    pos_hint: {"x": .55, "top": 1}
+                    text: "Cancel"
+                    on_release: app.change_screen("home_screen")

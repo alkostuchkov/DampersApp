@@ -1,0 +1,51 @@
+#:import MDDropdownMenu kivymd.uix.menu.MDDropdownMenu
+#:include kv/homescreen.kv
+#:include kv/adddamperscreen.kv
+#:include kv/editdamperscreen.kv
+#:include kv/addtypescreen.kv
+#:include kv/edittypescreen.kv
+#:include kv/deleteedittypescreen.kv
+
+<MyToolbar@MDToolbar>:
+    md_bg_color: app.theme_cls.primary_color
+    elevation: 10
+
+<TypeListItem>:
+    id: type_list_item
+    #    on_release: TODO: something useful!!!
+    MyRightCheckbox:
+        id: right_checkbox_types
+        on_active:
+            app.root.ids["delete_edit_type_screen"].add_into_selected_types(root) if self.active else app.root.ids["delete_edit_type_screen"].del_from_selected_types(root)
+
+<DamperListItem>:
+    id: damper_list_item
+#    on_release: print(self, self.ids)
+#    on_release: TODO: something useful!!!
+    MyRightCheckbox:
+        id: right_checkbox_dampers
+        on_active:
+            app.add_into_selected_dampers(root) if self.active else app.del_from_selected_dampers(root)
+
+<Container>:
+    orientation: "vertical"
+    ScreenManager:
+        id: screen_manager
+        HomeScreen:
+            name: "home_screen"
+            id: home_screen
+        AddTypeScreen:
+            name: "add_type_screen"
+            id: add_type_screen
+        EditTypeScreen:
+            name: "edit_type_screen"
+            id: edit_type_screen
+        DeleteEditTypeScreen:
+            name: "delete_edit_type_screen"
+            id: delete_edit_type_screen
+        AddDamperScreen:
+            name: "add_damper_screen"
+            id: add_damper_screen
+        EditDamperScreen:
+            name: "edit_damper_screen"
+            id: edit_damper_screen

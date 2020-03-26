@@ -1,0 +1,109 @@
+#:import get_color_from_hex kivy.utils.get_color_from_hex
+#:import get_hex_from_color kivy.utils.get_hex_from_color
+#:import date datetime.date
+
+<AddDamperScreen>:
+    tf_number: tf_number
+    dditm_type: dditm_type
+    lbl_choose_date: lbl_choose_date
+    tf_location: tf_location
+    chbx_isreleased: chbx_isreleased
+
+    BoxLayout:
+        orientation: "vertical"
+        MyToolbar:
+            size_hint_y: .1
+            title: "Add damper"
+            left_action_items:
+                [["arrow-left", lambda x: app.change_screen("home_screen")]]
+        GridLayout:
+            cols: 1
+            padding: dp(7)
+            spacing: dp(5)
+            MDTextField:
+                id: tf_number
+                hint_text: "Number of damper"
+                required: True
+                helper_text: "Can't be empty"
+                helper_text_mode: "on_error"
+            GridLayout:
+                rows: 1
+                size_hint_y: .1
+                MDLabel:
+                    size_hint_x: None
+                    width: dp(100)
+                    text: "Type:"
+    #            Spinner:
+    #                size_hint_x: .2
+    #                text: "45.30.045"
+    #                values:
+    #                    "45.30.045", \
+    #                    "4065.33.100", \
+    #                    "4065.33.200", \
+    #                    "закс", \
+    #                    "закс 260", \
+    #                    "4065.33.000", \
+    #                    "те1-10", \
+    #                    "331.00.000", \
+    #                    "331", \
+    #                    "331.00", \
+    #                    "679"
+                MDDropDownItem:
+                    id: dditm_type
+#                    items:
+#                        [
+#                        "45.30.045",
+#                        "4065.33.100",
+#                        "4065.33.200",
+#                        "закс",
+#                        "закс 260",
+#                        "4065.33.000",
+#                        "те1-10",
+#                        "331.00.000",
+#                        "331",
+#                        "331.00",
+#                        "679"
+#                        ]
+                    dropdown_bg: [1, 1, 1, 1]
+            ChooseDate:
+                canvas.before:
+                    Color:
+                        rgba: get_color_from_hex("#FFFFFF") if self.state == "normal" else get_color_from_hex(get_hex_from_color(app.theme_cls.primary_color))  # app.theme_cls.primary_color
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+                id: lbl_choose_date
+                text: "[u]{}[/u]".format(date.today())
+                markup: True
+                size_hint: .1, .1
+                on_release: root.show_datepicker()
+            MDTextField:
+                id: tf_location
+                hint_text: "Location"
+                required: True
+                helper_text: "Can't be empty"
+                helper_text_mode: "on_error"
+            BoxLayout:
+                size_hint_y: .1
+                MDLabel:
+                    text: "Is released:"
+                    size_hint_x: None
+                    width: dp(100)
+                MDCheckbox:
+                    id: chbx_isreleased
+                    size_hint_x: None
+                    width: dp(50)
+            MDTextField:
+                id: tf_notes
+                hint_text: "Notes"
+            FloatLayout:
+                spacing: dp(3)
+                MDRaisedButton:
+                    pos_hint: {"right": .45, "top": 1}
+                    text: "Add"
+                    on_release:
+                        root.add_damper(tf_number.text.strip(), dditm_type.current_item, lbl_choose_date.text, tf_location.text.strip(), chbx_isreleased.active, tf_notes.text.strip())
+                MDRaisedButton:
+                    pos_hint: {"x": .55, "top": 1}
+                    text: "Cancel"
+                    on_release: app.change_screen("home_screen")
