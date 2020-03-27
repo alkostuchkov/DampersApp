@@ -12,6 +12,8 @@ from kivymd.uix.picker import MDDatePicker
 from kivymd.uix.label import MDLabel
 from kivymd.toast.kivytoast import toast
 from kivymd.uix.dialog import MDDialog
+from kivy.properties import BooleanProperty
+from kivy.animation import Animation
 from kivy.utils import get_color_from_hex
 from kivy.clock import Clock
 from functools import partial
@@ -405,6 +407,8 @@ class EditDamperScreen(Screen):
 
 class MainApp(MDApp):
     title = "Dampers"
+    # For showing/hiding search widget.
+    is_search_focused = BooleanProperty(False)
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -584,6 +588,28 @@ class MainApp(MDApp):
         else:
             Clock.schedule_once(lambda x: (toast("No dampers in the DB")), 4)
             # toast("No dampers in the DB")
+
+    def show_search(self, search_widget, container_widget, *args):
+        """Show search."""
+        self.is_search_focused = True
+        # Slide tf_search top down from .96 to .9
+        anim_search = Animation(top_hint_search=.9)
+        anim_search.start(search_widget)
+
+        # Slide container top down from .9 to .84
+        anim_container = Animation(top_hint_container=.84)
+        anim_container.start(container_widget)
+
+    def hide_search(self, search_widget, container_widget, *args):
+        """Hide search."""
+        self.is_search_focused = False
+        # Slide tf_search top up from .9 to .96
+        anim_search = Animation(top_hint_search=.96)
+        anim_search.start(search_widget)
+
+        # Slide container top up from .84 to .9
+        anim_container = Animation(top_hint_container=.9)
+        anim_container.start(container_widget)
 
     def search_text_changed(self, finding_text):
         """
