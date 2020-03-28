@@ -532,6 +532,7 @@ class MainApp(MDApp):
         self.home_screen = self.root.ids["home_screen"]
         self.dampers_container = self.home_screen.ids["dampers_container"]
         self.tf_search = self.home_screen.ids["tf_search"]
+        self.container = self.home_screen.ids["container"]
         # For passing old_damper info into the EditDamperScreen.
         self.edit_damper_screen = self.root.ids["edit_damper_screen"]
 
@@ -558,6 +559,10 @@ class MainApp(MDApp):
         :param args: for Clock.schedule_once(self.set_field_focus, 1) in self.clear_db
         :param is_search: if True show only found dampers in self.found_dampers.
         """
+        # Hide search if not search.
+        if not is_search:
+            self.hide_search()
+
         if self.all_dampers_in_container:
             for damper in self.all_dampers_in_container:
                 self.dampers_container.remove_widget(damper)
@@ -589,27 +594,30 @@ class MainApp(MDApp):
             Clock.schedule_once(lambda x: (toast("No dampers in the DB")), 4)
             # toast("No dampers in the DB")
 
-    def show_search(self, search_widget, container_widget, *args):
+    def show_search(self, *args):
         """Show search."""
+        self.tf_search.focused = True
         self.is_search_focused = True
         # Slide tf_search top down from .96 to .9
         anim_search = Animation(top_hint_search=.9)
-        anim_search.start(search_widget)
+        anim_search.start(self.tf_search)
 
-        # Slide container top down from .9 to .84
+        # Slide container(GridLayout) top down from .9 to .84
         anim_container = Animation(top_hint_container=.84)
-        anim_container.start(container_widget)
+        anim_container.start(self.container)
 
-    def hide_search(self, search_widget, container_widget, *args):
+    def hide_search(self, *args):
         """Hide search."""
         self.is_search_focused = False
+        # Clear tf_search when hiding.
+        self.tf_search.text = ""
         # Slide tf_search top up from .9 to .96
         anim_search = Animation(top_hint_search=.96)
-        anim_search.start(search_widget)
+        anim_search.start(self.tf_search)
 
-        # Slide container top up from .84 to .9
+        # Slide container(GridLayout) top up from .84 to .9
         anim_container = Animation(top_hint_container=.9)
-        anim_container.start(container_widget)
+        anim_container.start(self.container)
 
     def search_text_changed(self, finding_text):
         """

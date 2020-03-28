@@ -16,7 +16,7 @@
             size_hint_y: .1
             right_action_items:
                 [\
-                ["magnify", lambda x: app.hide_search(tf_search, container) if app.is_search_focused else app.show_search(tf_search, container)],\
+                ["magnify", lambda x: app.hide_search() if app.is_search_focused else app.show_search()],\
                 ["sort-variant", lambda x: MDDropdownMenu(items=app.sort_menu_items, width_mult=4).open(self)],\
                 ["dots-vertical", lambda x: MDDropdownMenu(items=app.toolbar_menu_items, width_mult=4).open(self)]\
                 ]
