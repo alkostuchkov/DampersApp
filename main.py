@@ -17,7 +17,11 @@ from kivy.animation import Animation
 from kivy.utils import get_color_from_hex
 from kivy.clock import Clock
 from functools import partial
+from datetime import datetime
+from plyer import filechooser
 import sqlite3
+import shutil
+import os
 import re
 from damper import Damper
 
@@ -456,6 +460,17 @@ class MainApp(MDApp):
              "callback": self.show_delete_dampers_dialog},
 
             {"viewclass": "MDMenuItem",
+             "text": "Backup Database",
+             "icon": "content-save-outline",
+             "callback": self.backup_db},
+
+            {"viewclass": "MDMenuItem",
+             "text": "Restore Database",
+             # "icon": "file-restore-outline",
+             "icon": "backup-restore",
+             "callback": self.restore_db},
+
+            {"viewclass": "MDMenuItem",
              "text": "Clear DB",
              # "icon": "delete-alert-outline",
              "icon": "delete-forever-outline",
@@ -633,6 +648,45 @@ class MainApp(MDApp):
                     finding_text in self.damper.check_date):
                 self.found_dampers.append(self.damper)
         self.show_dampers(is_search=True)
+
+    def backup_db(self, *args):
+        """Backup Database."""
+        chosen_dir = filechooser.choose_dir(title="Choose directory")
+        if chosen_dir:  # If directory for backup is chosen.
+            now = datetime.now()
+            now_datetime = (
+                "{}-{}-{}_{}:{}:{}".format(
+                    now.year,
+                    str(now.month).zfill(2),
+                    str(now.day).zfill(2),
+                    now.hour,
+                    now.minute,
+                    now.second
+                )
+            )
+            dirname = os.path.dirname(__file__)
+            src_db_path = "{}{}dampers.db".format(dirname, os.sep)
+            dst_filename = "{}{}{}_{}".format(chosen_dir[0], os.sep, now_datetime, "dampers.db")
+            try:
+                shutil.copyfile(src_db_path, dst_filename)
+            except OSError:
+                toast("SaveBackupError")
+            else:
+                toast("Backup file saved")
+
+    def restore_db(self, *args):
+        """Restore Database."""
+        src_filename = filechooser.open_file(title="Choose file")
+        if src_filename:
+            dst_db_path = os.path.dirname(__file__)
+            try:
+                shutil.copyfile(src_filename[0], "{}{}{}".format(dst_db_path, os.sep, "dampers.db"))
+            except OSError:
+                toast("RestoreBackupError")
+            else:
+                toast("Backup file restored")
+        else:
+            toast("Choose the file")
 
     def show_themepicker(self, *args):
         picker = MDThemePicker()
