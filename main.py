@@ -14,11 +14,11 @@ from kivymd.toast.kivytoast import toast
 from kivymd.uix.dialog import MDDialog
 from kivy.properties import BooleanProperty
 from kivy.animation import Animation
-from kivy.utils import get_color_from_hex
+# from kivy.utils import get_color_from_hex
 from kivy.clock import Clock
 from functools import partial
 from datetime import datetime
-from plyer import filechooser
+# from plyer import filechooser
 import sqlite3
 import shutil
 import os
@@ -421,6 +421,11 @@ class MainApp(MDApp):
         self.damper = None
         self.dampers = []  # Has all getting dampers (class Damper) from the DB.
         self.found_dampers = []  # Has all found in searching dampers.
+        self.sort_menu_items = []
+        self.toolbar_menu_items = []
+
+    def build(self):
+        self.theme_cls.primary_palette = "Teal"
 
         self.toolbar_menu_items = [
             {"viewclass": "MDMenuItem",
@@ -515,31 +520,6 @@ class MainApp(MDApp):
              "callback": self.get_dampers}
         ]
 
-        # self.search_menu_items = [
-        #     {"viewclass": "MDMenuItem",
-        #      "text": "Search by 'number'",
-        #      "icon": "numeric",
-        #      "callback": partial(self.search, "by number")},
-        #
-        #     {"viewclass": "MDMenuItem",
-        #      "text": "Search by 'location'",
-        #      "icon": "table-search",
-        #      "callback": partial(self.search, "by location")},
-        #
-        #     {"viewclass": "MDMenuItem",
-        #      "text": "Search by 'check date'",
-        #      "icon": "calendar-search",
-        #      "callback": partial(self.search, "by check date")},
-        #
-        #     {"viewclass": "MDMenuItem",
-        #      "text": "No search",
-        #      "icon": "magnify-close",
-        #      "callback": partial(self.search, "")}
-        # ]
-
-    def build(self):
-        self.theme_cls.primary_palette = "Teal"
-
         return Container()
 
     def on_start(self):
@@ -556,17 +536,18 @@ class MainApp(MDApp):
     def get_dampers(self, order="no order", *args):
         """
         Get all dampers from the DB and store them into self.dampers.
-        :param order: str for sorting can be: "by number", "by location",
-                                              "by check date", by is released",
-                                              "no order"
+        :param order: str for sorting can be:
+                                    "by number", "by location",
+                                    "by check date", by is released",
+                                    "no order"
         """
         self.damper = Damper()
         try:
             self.dampers = self.damper.get_dampers(order)
         except sqlite3.DatabaseError:
             toast("Can't get dampers from the DB")
-        else:
-            self.show_dampers()
+        # else:
+        #     self.show_dampers()
 
     def show_dampers(self, is_search=False, *args):
         """
@@ -606,8 +587,8 @@ class MainApp(MDApp):
                 # getting access to right_checkbox_dampers in the future.
                 self.all_dampers_in_container.append(a_damper_list_item)
         else:
-            Clock.schedule_once(lambda x: (toast("No dampers in the DB")), 4)
-            # toast("No dampers in the DB")
+            # Clock.schedule_once(lambda x: (toast("No dampers in the DB")), 4)
+            toast("No dampers in the DB")
 
     def show_search(self, *args):
         """Show search."""
