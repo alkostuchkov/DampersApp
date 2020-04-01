@@ -413,6 +413,7 @@ class MainApp(MDApp):
     title = "Dampers"
     # For showing/hiding search widget.
     is_search_focused = BooleanProperty(False)
+    is_first_started = BooleanProperty(True)
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -532,6 +533,7 @@ class MainApp(MDApp):
         self.edit_damper_screen = self.root.ids["edit_damper_screen"]
 
         self.get_dampers()
+        self.is_first_started = False
 
     def get_dampers(self, order="no order", *args):
         """
@@ -546,8 +548,11 @@ class MainApp(MDApp):
             self.dampers = self.damper.get_dampers(order)
         except sqlite3.DatabaseError:
             toast("Can't get dampers from the DB")
-        # else:
-        #     self.show_dampers()
+        else:
+            # Not to show_dampers in the first start
+            # because it'll be done in change_screen.
+            if not self.is_first_started:
+                self.show_dampers()
 
     def show_dampers(self, is_search=False, *args):
         """
