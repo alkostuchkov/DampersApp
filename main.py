@@ -25,6 +25,8 @@ import os
 import re
 from damper import Damper
 
+from kivymd.uix.menu import MDDropdownMenu
+
 
 class Container(BoxLayout):  # root widget
     pass
@@ -671,6 +673,8 @@ class MainApp(MDApp):
                 toast("RestoreBackupError")
             else:
                 toast("Backup file restored")
+                # Get and show dampers after restoring.
+                self.get_dampers()
         else:
             toast("Choose the file")
 
