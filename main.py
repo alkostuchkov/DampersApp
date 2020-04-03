@@ -2,6 +2,9 @@ from kivymd.app import MDApp
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.screenmanager import Screen
 from kivy.uix.behaviors import ButtonBehavior
+from kivymd.uix.behaviors import RectangularElevationBehavior
+from kivymd.theming import ThemableBehavior
+from kivymd.uix.boxlayout import MDBoxLayout
 from kivymd.uix.button import MDIconButton
 from kivymd.uix.list import ILeftBodyTouch, IRightBodyTouch
 from kivymd.uix.selectioncontrol import MDCheckbox
@@ -14,7 +17,6 @@ from kivymd.toast.kivytoast import toast
 from kivymd.uix.dialog import MDDialog
 from kivy.properties import BooleanProperty
 from kivy.animation import Animation
-# from kivy.utils import get_color_from_hex
 from kivy.clock import Clock
 from functools import partial
 from datetime import datetime
@@ -25,11 +27,17 @@ import os
 import re
 from damper import Damper
 
-from kivymd.uix.menu import MDDropdownMenu
-
 
 class Container(BoxLayout):  # root widget
     pass
+
+
+class MyToolbar(ThemableBehavior,
+                    RectangularElevationBehavior,
+                    MDBoxLayout):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.md_bg_color = self.theme_cls.primary_color
 
 
 class ChooseDate(ButtonBehavior, MDLabel):
