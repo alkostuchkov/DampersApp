@@ -42,11 +42,10 @@
             on_text: app.search_text_changed(self.text.strip())
         HomeToolbar:
             id: tb_home
-            pos_hint: {"top": 1}
-            size_hint_y: .1
         GridLayout:
             id: container
             cols: 1
+            size_hint_y: .87
             top_hint_container: .9
             pos_hint: {"top": self.top_hint_container}
 #            pos_hint: {"top": .84}
