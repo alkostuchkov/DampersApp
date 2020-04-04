@@ -7,8 +7,10 @@
 #:include kv/deleteedittypescreen.kv
 
 <MyToolbar>:
-    size_hint_y: None
-    height: self.theme_cls.standard_increment
+    pos_hint: {"top": 1}
+    size_hint_y: .1
+#    size_hint_y: None
+#    height: self.theme_cls.standard_increment
     padding: dp(5)
     spacing: dp(12)
     elevation: 10
