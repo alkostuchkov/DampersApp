@@ -15,6 +15,7 @@ from kivymd.uix.picker import MDDatePicker
 from kivymd.uix.label import MDLabel
 from kivymd.toast.kivytoast import toast
 from kivymd.uix.dialog import MDDialog
+from kivymd.uix.menu import MDDropdownMenu
 from kivy.properties import BooleanProperty
 from kivy.animation import Animation
 from kivy.clock import Clock
@@ -432,104 +433,91 @@ class MainApp(MDApp):
         self.damper = None
         self.dampers = []  # Has all getting dampers (class Damper) from the DB.
         self.found_dampers = []  # Has all found in searching dampers.
-        self.sort_menu_items = []
-        self.toolbar_menu_items = []
+        self.menu_items_sort = []
+        self.menu_items_dots = []
+        self.menu_sort = None
+        self.menu_dots = None
+
+        self.menu_items_dots = [
+            {"text": "Select all",
+             "icon": "select-all"},
+
+            {"text": "Cancel all selection",
+             "icon": "select-off"},
+
+            {"text": "Add type",
+             "icon": "plus"},
+
+            {"text": "Delete/Edit type",
+             "icon": "delete-outline"},
+
+            {"text": "Add damper",
+             "icon": "plus"},
+
+            {"text": "Edit selected damper",
+             "icon": "square-edit-outline"},
+
+            {"text": "Delete selected dampers",
+             "icon": "delete-outline"},
+
+            {"text": "Backup Database",
+             "icon": "content-save-outline"},
+
+            {"text": "Restore Database",
+             "icon": "backup-restore"},
+
+            {"text": "Clear DB",
+             "icon": "delete-forever-outline"},
+
+            {"text": "Change theme",
+             "icon": "theme-light-dark"},
+
+            {"text": "Exit",
+             "icon": "exit-to-app"}
+        ]
+        # Dict to process callback_menu_dots.
+        self.dict_menu_dots = {
+            "Select all": self.select_all,
+            "Cancel all selection": self.cancel_all_selection,
+            "Add type": partial(self.change_screen, "add_type_screen"),
+            "Delete/Edit type": partial(self.change_screen, "delete_edit_type_screen"),
+            "Add damper": partial(self.change_screen, "add_damper_screen"),
+            "Edit selected damper": self.edit_selected_damper,
+            "Delete selected dampers": self.show_delete_dampers_dialog,
+            "Backup Database": self.backup_db,
+            "Restore Database": self.restore_db,
+            "Clear DB": self.show_clear_db_dialog,
+            "Change theme": self.show_themepicker,
+            "Exit": self.stop
+        }
+
+        self.menu_items_sort = [
+            {"text": "Sort by 'number'",
+             "icon": "sort-numeric"},
+
+            {"text": "Sort by 'location'",
+             "icon": "format-columns"},
+
+            {"text": "Sort by 'check date'",
+             "icon": "calendar-month"},
+
+            {"text": "Sort by 'is released'",
+             "icon": "check-outline"},
+
+            {"text": "Sort by 'no order'",
+             "icon": "sort-variant-remove"}
+        ]
+        # Dict to process callback_menu_sort.
+        self.dict_menu_sort = {
+            "Sort by 'number'": partial(self.get_dampers, "by number"),
+            "Sort by 'location'": partial(self.get_dampers, "by location"),
+            "Sort by 'check date'": partial(self.get_dampers, "by check date"),
+            "Sort by 'is released'": partial(self.get_dampers, "by is released"),
+            "Sort by 'no order'": self.get_dampers
+        }
 
     def build(self):
         self.theme_cls.primary_palette = "Teal"
-
-        self.toolbar_menu_items = [
-            {"viewclass": "MDMenuItem",
-             "text": "Select all",
-             "icon": "select-all",
-             "callback": self.select_all},
-
-            {"viewclass": "MDMenuItem",
-             "text": "Cancel all selection",
-             "icon": "select-off",
-             "callback": self.cancel_all_selection},
-
-            {"viewclass": "MDMenuItem",
-             "text": "Add type",
-             "icon": "plus",
-             "callback": partial(self.change_screen, "add_type_screen")},
-
-            {"viewclass": "MDMenuItem",
-             "text": "Delete/Edit type",
-             # "icon": "circle-edit-outline",
-             "icon": "delete-outline",
-             "callback": partial(self.change_screen, "delete_edit_type_screen")},
-
-            {"viewclass": "MDMenuItem",
-             "text": "Add damper",
-             "icon": "plus",
-             "callback": partial(self.change_screen, "add_damper_screen")},
-
-            {"viewclass": "MDMenuItem",
-             "text": "Edit selected damper",
-             "icon": "square-edit-outline",
-             "callback": self.edit_selected_damper},
-
-            {"viewclass": "MDMenuItem",
-             "text": "Delete selected dampers",
-             "icon": "delete-outline",
-             "callback": self.show_delete_dampers_dialog},
-
-            {"viewclass": "MDMenuItem",
-             "text": "Backup Database",
-             "icon": "content-save-outline",
-             "callback": self.backup_db},
-
-            {"viewclass": "MDMenuItem",
-             "text": "Restore Database",
-             # "icon": "file-restore-outline",
-             "icon": "backup-restore",
-             "callback": self.restore_db},
-
-            {"viewclass": "MDMenuItem",
-             "text": "Clear DB",
-             # "icon": "delete-alert-outline",
-             "icon": "delete-forever-outline",
-             "callback": self.show_clear_db_dialog},
-
-            {"viewclass": "MDMenuItem",
-             "text": "Change theme",
-             "icon": "theme-light-dark",
-             "callback": self.show_themepicker},
-
-            {"viewclass": "MDMenuItem",
-             "text": "Exit",
-             "icon": "exit-to-app",
-             "callback": lambda x: self.stop()}
-        ]
-
-        self.sort_menu_items = [
-            {"viewclass": "MDMenuItem",
-             "text": "Sort by 'number'",
-             "icon": "sort-numeric",
-             "callback": partial(self.get_dampers, "by number")},
-
-            {"viewclass": "MDMenuItem",
-             "text": "Sort by 'location'",
-             "icon": "format-columns",
-             "callback": partial(self.get_dampers, "by location")},
-
-            {"viewclass": "MDMenuItem",
-             "text": "Sort by 'check date'",
-             "icon": "calendar-month",
-             "callback": partial(self.get_dampers, "by check date")},
-
-            {"viewclass": "MDMenuItem",
-             "text": "Sort by 'is released'",
-             "icon": "check-outline",
-             # "icon": "format-list-checks",
-             "callback": partial(self.get_dampers, "by is released")},
-
-            {"viewclass": "MDMenuItem",
-             "text": "Sort by 'no order'",
-             "icon": "sort-variant-remove",
-             "callback": self.get_dampers}
-        ]
 
         return Container()
 
@@ -541,9 +529,39 @@ class MainApp(MDApp):
         self.container = self.home_screen.ids["container"]
         # For passing old_damper info into the EditDamperScreen.
         self.edit_damper_screen = self.root.ids["edit_damper_screen"]
-
+        # Creating MyToolbar dots and sort menus.
+        self.menu_dots = MDDropdownMenu(
+            caller=self.home_screen.ids["tb_home"].ids["ibtn_dots"],
+            items=self.menu_items_dots,
+            callback=self.callback_menu_dots,
+            # position="auto",
+            width_mult=5
+        )
+        self.menu_sort = MDDropdownMenu(
+            caller=self.home_screen.ids["tb_home"].ids["ibtn_sort"],
+            items=self.menu_items_sort,
+            callback=self.callback_menu_sort,
+            # position="bottom",
+            width_mult=5
+        )
         self.get_dampers()
         self.is_first_started = False
+
+    def callback_menu_sort(self, instance):
+        """
+        Check what item in the menu_sort pressed and
+        do the action according pressed menu item.
+        Actions are in the self.dict_menu_sort.
+        """
+        self.dict_menu_sort.get(instance.text)()
+
+    def callback_menu_dots(self, instance):
+        """
+        Check what item in the menu_dots pressed and
+        do the action according pressed menu item.
+        Actions are in the self.dict_menu_dots.
+        """
+        self.dict_menu_dots.get(instance.text)()
 
     def get_dampers(self, order="no order", *args):
         """
