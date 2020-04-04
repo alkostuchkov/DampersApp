@@ -1,3 +1,33 @@
+<HomeToolbar@MyToolbar>:
+    MDIconButton:
+        id: ibtn_menu
+        icon: "menu"
+        pos_hint: {"center_y": .5}
+#        on_release: app.menu_1.open()
+    MDLabel:
+        text: "Dampers"
+        pos_hint: {"center_y": .5}
+        size_hint_x: None
+        width: self.texture_size[0]
+        text_size: None, None
+        font_style: 'H6'
+    Widget:
+    MDIconButton:
+        id: ibtn_search
+        icon: "magnify"
+        pos_hint: {"center_y": .5}
+        on_release: app.hide_search() if app.is_search_focused else app.show_search()
+    MDIconButton:
+        id: ibtn_sort
+        icon: "sort-variant"
+        pos_hint: {"center_y": .5}
+        on_release: app.menu_sort.open()
+    MDIconButton:
+        id: ibtn_dots
+        icon: "dots-vertical"
+        pos_hint: {"center_y": .5}
+        on_release: app.menu_dots.open()
+
 <HomeScreen>:
     FloatLayout:
         MDTextFieldRound:
@@ -10,18 +40,10 @@
             icon_left: "magnify"
             normal_color: app.theme_cls.primary_color
             on_text: app.search_text_changed(self.text.strip())
-        MyToolbar:
-            title: "Dampers"
+        HomeToolbar:
+            id: tb_home
             pos_hint: {"top": 1}
             size_hint_y: .1
-            right_action_items:
-                [\
-                ["magnify", lambda x: app.hide_search() if app.is_search_focused else app.show_search()],\
-                ["sort-variant", lambda x: MDDropdownMenu(items=app.sort_menu_items, width_mult=4).open(self)],\
-                ["dots-vertical", lambda x: MDDropdownMenu(items=app.toolbar_menu_items, width_mult=4).open(self)]\
-                ]
-            left_action_items:
-                [["menu", lambda x: None]]
         GridLayout:
             id: container
             cols: 1
