@@ -1,0 +1,81 @@
+# Base toolbar.
+<MyToolbar>:
+    id: tb_base
+    pos_hint: {"top": 1}
+    size_hint_y: .1
+#    size_hint_y: None
+#    height: self.theme_cls.standard_increment
+    padding: dp(5)
+    spacing: dp(12)
+    elevation: 10
+
+# Common toolbar for Add/Edit screens.
+<AddEditToolbar@MyToolbar>:
+    MDIconButton:
+        icon: "arrow-left"
+        pos_hint: {"center_y": .5}
+        on_release: app.change_screen("home_screen")
+    MDLabel:
+        text: root.toolbar_title
+        pos_hint: {"center_y": .5}
+        size_hint_x: None
+        width: self.texture_size[0]
+        text_size: None, None
+        font_style: 'H6'
+
+<DeleteEditTypeToolbar@AddEditToolbar>:
+    Widget:
+    MDIconButton:
+        id: ibtn_dots
+        icon: "dots-vertical"
+        pos_hint: {"center_y": .5}
+        on_release: root.menu_dots.open()
+
+<HomeToolbar@MyToolbar>:
+    MDIconButton:
+        id: ibtn_menu
+        icon: "menu"
+        pos_hint: {"center_y": .5}
+#        on_release: app.menu_1.open()
+    MDLabel:
+        text: "Dampers"
+        pos_hint: {"center_y": .5}
+        size_hint_x: None
+        width: self.texture_size[0]
+        text_size: None, None
+        font_style: 'H6'
+    Widget:
+    MDIconButton:
+        id: ibtn_search
+        icon: "magnify"
+        pos_hint: {"center_y": .5}
+        on_release: app.hide_search() if app.is_search_focused else app.show_search()
+    MDIconButton:
+        id: ibtn_sort
+        icon: "sort-variant"
+        pos_hint: {"center_y": .5}
+        on_release: app.menu_sort.open()
+    MDIconButton:
+        id: ibtn_dots
+        icon: "dots-vertical"
+        pos_hint: {"center_y": .5}
+        on_release: app.menu_dots.open()
+
+<TypeListItem>:
+    id: type_list_item
+    #    on_release: TODO: something useful!!!
+    MyRightCheckbox:
+        id: right_checkbox_types
+        on_active:
+            app.root.ids["delete_edit_type_screen"].add_into_selected_types(root) if self.active else app.root.ids["delete_edit_type_screen"].del_from_selected_types(root)
+
+<DamperListItem>:
+    id: damper_list_item
+#    on_release: print(self, self.ids)
+#    on_release: TODO: something useful!!!
+    MyRightCheckbox:
+        id: right_checkbox_dampers
+        on_active:
+            app.add_into_selected_dampers(root) if self.active else app.del_from_selected_dampers(root)
+
+

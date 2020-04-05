@@ -1,36 +1,10 @@
-#:import MDDropdownMenu kivymd.uix.menu.MDDropdownMenu
 #:include kv/homescreen.kv
 #:include kv/adddamperscreen.kv
 #:include kv/editdamperscreen.kv
 #:include kv/addtypescreen.kv
 #:include kv/edittypescreen.kv
 #:include kv/deleteedittypescreen.kv
-
-<MyToolbar>:
-    pos_hint: {"top": 1}
-    size_hint_y: .1
-#    size_hint_y: None
-#    height: self.theme_cls.standard_increment
-    padding: dp(5)
-    spacing: dp(12)
-    elevation: 10
-
-<TypeListItem>:
-    id: type_list_item
-    #    on_release: TODO: something useful!!!
-    MyRightCheckbox:
-        id: right_checkbox_types
-        on_active:
-            app.root.ids["delete_edit_type_screen"].add_into_selected_types(root) if self.active else app.root.ids["delete_edit_type_screen"].del_from_selected_types(root)
-
-<DamperListItem>:
-    id: damper_list_item
-#    on_release: print(self, self.ids)
-#    on_release: TODO: something useful!!!
-    MyRightCheckbox:
-        id: right_checkbox_dampers
-        on_active:
-            app.add_into_selected_dampers(root) if self.active else app.del_from_selected_dampers(root)
+#:include kv/mycomponents.kv
 
 <Container>:
     orientation: "vertical"
@@ -55,4 +29,4 @@
             name: "edit_damper_screen"
             id: edit_damper_screen
 
-Container:
+#Container:

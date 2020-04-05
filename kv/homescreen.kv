@@ -1,33 +1,3 @@
-<HomeToolbar@MyToolbar>:
-    MDIconButton:
-        id: ibtn_menu
-        icon: "menu"
-        pos_hint: {"center_y": .5}
-#        on_release: app.menu_1.open()
-    MDLabel:
-        text: "Dampers"
-        pos_hint: {"center_y": .5}
-        size_hint_x: None
-        width: self.texture_size[0]
-        text_size: None, None
-        font_style: 'H6'
-    Widget:
-    MDIconButton:
-        id: ibtn_search
-        icon: "magnify"
-        pos_hint: {"center_y": .5}
-        on_release: app.hide_search() if app.is_search_focused else app.show_search()
-    MDIconButton:
-        id: ibtn_sort
-        icon: "sort-variant"
-        pos_hint: {"center_y": .5}
-        on_release: app.menu_sort.open()
-    MDIconButton:
-        id: ibtn_dots
-        icon: "dots-vertical"
-        pos_hint: {"center_y": .5}
-        on_release: app.menu_dots.open()
-
 <HomeScreen>:
     FloatLayout:
         MDTextFieldRound:

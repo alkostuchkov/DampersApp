@@ -3,11 +3,8 @@
 
     BoxLayout:
         orientation: "vertical"
-        MyToolbar:
-            size_hint_y: .1
-            title: "Edit type"
-            left_action_items:
-                [["arrow-left", lambda x: app.change_screen("home_screen")]]
+        AddEditToolbar:
+            toolbar_title: "Edit type"
         GridLayout:
             cols: 1
             padding: dp(7)

@@ -16,7 +16,7 @@ from kivymd.uix.label import MDLabel
 from kivymd.toast.kivytoast import toast
 from kivymd.uix.dialog import MDDialog
 from kivymd.uix.menu import MDDropdownMenu
-from kivy.properties import BooleanProperty
+from kivy.properties import BooleanProperty, StringProperty
 from kivy.animation import Animation
 from kivy.clock import Clock
 from functools import partial
@@ -34,8 +34,11 @@ class Container(BoxLayout):  # root widget
 
 
 class MyToolbar(ThemableBehavior,
-                    RectangularElevationBehavior,
-                    MDBoxLayout):
+                RectangularElevationBehavior,
+                MDBoxLayout):
+    # Property for each toolbar could change its own title.
+    toolbar_title = StringProperty("")
+
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.md_bg_color = self.theme_cls.primary_color

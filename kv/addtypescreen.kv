@@ -1,24 +1,10 @@
-<AddTypeToolbar@MyToolbar>:
-    MDIconButton:
-        id: ibtn_menu
-        icon: "arrow-left"
-        pos_hint: {"center_y": .5}
-        on_release: app.change_screen("home_screen")
-    MDLabel:
-        text: "Add damper type"
-        pos_hint: {"center_y": .5}
-        size_hint_x: None
-        width: self.texture_size[0]
-        text_size: None, None
-        font_style: 'H6'
-
 <AddTypeScreen>:
     tf_type: tf_type
 
     BoxLayout:
         orientation: "vertical"
-        AddTypeToolbar:
-            id: tb_addtype
+        AddEditToolbar:
+            toolbar_title: "Add damper type"
         GridLayout:
             cols: 1
             padding: dp(7)
