@@ -276,6 +276,8 @@ class AddDamperScreen(Screen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.d_types = []
+        # MDDropdownMenu
+        self.menu = None
 
     def on_enter(self):
         """Get damper types and put them into self.d_types."""
@@ -288,8 +290,20 @@ class AddDamperScreen(Screen):
             if not self.d_types:
                 toast("No Types in the DB")
             else:
-                self.ids["dditm_type"].items = self.d_types
+                menu_items = [{"text": d_type} for d_type in self.d_types]
+                self.menu = MDDropdownMenu(
+                    caller=self.ids["dditm_type"],
+                    items=menu_items,
+                    # position="center",
+                    width_mult=4,
+                    callback=self.set_item
+                )
+                self.ids["dditm_type"].text = self.d_types[0]
                 # self.dditm_type.items = self.types
+
+    def set_item(self, instance):
+        """Set chosen item text in the MDDropdownMenu."""
+        self.ids["dditm_type"].set_item(instance.text)
 
     def add_damper(self, number, d_type, check_date, location, is_released=False, notes=""):
         """Add new damper into the MDList and DB."""
@@ -353,6 +367,8 @@ class EditDamperScreen(Screen):
         self.old_location = ""
         self.old_is_released = False
         self.old_notes = ""
+        # MDDropdownMenu
+        self.menu = None
 
         self.is_the_number_exists = False
         self.is_the_location_exists = False
@@ -370,8 +386,14 @@ class EditDamperScreen(Screen):
             if not self.d_types:
                 toast("No Types in the DB")
             else:
-                self.ids["dditm_type"].items = self.d_types
-
+                menu_items = [{"text": d_type} for d_type in self.d_types]
+                self.menu = MDDropdownMenu(
+                    caller=self.ids["dditm_type"],
+                    items=menu_items,
+                    # position="center",
+                    width_mult=4,
+                    callback=self.set_item
+                )
                 self.tf_number.text = self.old_number
                 # To show correct current_item in the MDDropDownItem (dditm_type).
                 self.dditm_type.current_item = self.old_d_type
@@ -381,6 +403,10 @@ class EditDamperScreen(Screen):
                 self.tf_location.text = self.old_location
                 self.chbx_isreleased.active = self.old_is_released
                 self.tf_notes.text = self.old_notes
+
+    def set_item(self, instance):
+        """Set chosen item text in the MDDropdownMenu."""
+        self.ids["dditm_type"].set_item(instance.text)
 
     def edit_damper(self, new_number, new_d_type, new_check_date, new_location, new_is_released=False, new_notes=""):
         """Edit the damper."""
