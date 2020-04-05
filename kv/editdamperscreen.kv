@@ -12,12 +12,8 @@
 
     BoxLayout:
         orientation: "vertical"
-        MyToolbar:
-#            pos_hint: {"top": 1}
-            size_hint_y: .1
-            title: "Edit item"
-            left_action_items:
-                [["arrow-left", lambda x: app.change_screen("home_screen")]]
+        AddEditToolbar:
+            toolbar_title: "Edit damper"
         GridLayout:
             cols: 1
 #            pos_hint: {"top": .9}
