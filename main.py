@@ -132,30 +132,47 @@ class DeleteEditTypeScreen(Screen):
         self.selected_types = []  # Every TypeListItem selected by MyRightCheckbox add to this list.
         self.all_types_in_container = []  # Consists of all adding TypeListItem.
         self.d_types = []  # All d_types from the DB.
-        self.toolbar_menu_items = [
-            {"viewclass": "MDMenuItem",
-             "text": "Select all",
-             "icon": "select-all",
-             "callback": self.select_all},
+        self.menu_dots = None
+        self.menu_items_dots = [
+            {"text": "Select all",
+             "icon": "select-all"},
 
-            {"viewclass": "MDMenuItem",
-             "text": "Cancel all selection",
-             "icon": "select-off",
-             "callback": self.cancel_all_selection},
+            {"text": "Cancel all selection",
+             "icon": "select-off"},
 
-            {"viewclass": "MDMenuItem",
-             "text": "Edit selected type",
-             "icon": "square-edit-outline",
-             "callback": self.edit_selected_type},
+            {"text": "Edit selected type",
+             "icon": "square-edit-outline"},
 
-            {"viewclass": "MDMenuItem",
-             "text": "Delete selected types",
-             "icon": "delete-outline",
-             "callback": self.show_deleting_dialog}
+            {"text": "Delete selected types",
+             "icon": "delete-outline"}
         ]
+        # Dict to process callback_menu_dots.
+        self.dict_menu_dots_funcs = {
+            "Select all": self.select_all,
+            "Cancel all selection": self.cancel_all_selection,
+            "Edit selected type": self.edit_selected_type,
+            "Delete selected types": self.show_deleting_dialog,
+        }
+
+    def callback_menu_dots(self, instance):
+        """
+        Check what item in the menu_dots pressed and
+        do the action according pressed menu item.
+        Actions are in the self.dict_menu_dots_funcs.
+        """
+        self.dict_menu_dots_funcs.get(instance.text)()
 
     def on_enter(self):
         """Read DB and output data into types_container."""
+
+        # Creating DeleteEditTypeToolbar dots menus.
+        self.menu_dots = MDDropdownMenu(
+            caller=self.ids["tb_deleteedittype"].ids["ibtn_dots"],
+            items=self.menu_items_dots,
+            callback=self.callback_menu_dots,
+            # position="auto",
+            width_mult=5
+        )
         damper = Damper()
         try:
             self.d_types = damper.get_types()
@@ -436,8 +453,6 @@ class MainApp(MDApp):
         self.damper = None
         self.dampers = []  # Has all getting dampers (class Damper) from the DB.
         self.found_dampers = []  # Has all found in searching dampers.
-        self.menu_items_sort = []
-        self.menu_items_dots = []
         self.menu_sort = None
         self.menu_dots = None
 
@@ -479,7 +494,7 @@ class MainApp(MDApp):
              "icon": "exit-to-app"}
         ]
         # Dict to process callback_menu_dots.
-        self.dict_menu_dots = {
+        self.dict_menu_dots_funcs = {
             "Select all": self.select_all,
             "Cancel all selection": self.cancel_all_selection,
             "Add type": partial(self.change_screen, "add_type_screen"),
@@ -511,7 +526,7 @@ class MainApp(MDApp):
              "icon": "sort-variant-remove"}
         ]
         # Dict to process callback_menu_sort.
-        self.dict_menu_sort = {
+        self.dict_menu_sort_funcs = {
             "Sort by 'number'": partial(self.get_dampers, "by number"),
             "Sort by 'location'": partial(self.get_dampers, "by location"),
             "Sort by 'check date'": partial(self.get_dampers, "by check date"),
@@ -556,7 +571,7 @@ class MainApp(MDApp):
         do the action according pressed menu item.
         Actions are in the self.dict_menu_sort.
         """
-        self.dict_menu_sort.get(instance.text)()
+        self.dict_menu_sort_funcs.get(instance.text)()
 
     def callback_menu_dots(self, instance):
         """
@@ -564,7 +579,7 @@ class MainApp(MDApp):
         do the action according pressed menu item.
         Actions are in the self.dict_menu_dots.
         """
-        self.dict_menu_dots.get(instance.text)()
+        self.dict_menu_dots_funcs.get(instance.text)()
 
     def get_dampers(self, order="no order", *args):
         """
