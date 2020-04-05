@@ -276,6 +276,7 @@ class AddDamperScreen(Screen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.d_types = []
+        self.menu = None
 
     def on_enter(self):
         """Get damper types and put them into self.d_types."""
@@ -288,8 +289,20 @@ class AddDamperScreen(Screen):
             if not self.d_types:
                 toast("No Types in the DB")
             else:
-                self.ids["dditm_type"].items = self.d_types
+                menu_items = [{"text": d_type} for d_type in self.d_types]
+                self.menu = MDDropdownMenu(
+                    caller=self.ids["dditm_type"],
+                    items=menu_items,
+                    # position="center",
+                    width_mult=4,
+                    callback=self.set_item
+                )
+                self.ids["dditm_type"].text = self.d_types[0]
                 # self.dditm_type.items = self.types
+
+    def set_item(self, instance):
+        """Set chosen item text in the MDDropdownMenu."""
+        self.ids["dditm_type"].set_item(instance.text)
 
     def add_damper(self, number, d_type, check_date, location, is_released=False, notes=""):
         """Add new damper into the MDList and DB."""
