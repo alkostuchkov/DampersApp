@@ -47,20 +47,6 @@
     #                    "679"
                 MDDropDownItem:
                     id: dditm_type
-#                    items:
-#                        [
-#                        "45.30.045",
-#                        "4065.33.100",
-#                        "4065.33.200",
-#                        "закс",
-#                        "закс 260",
-#                        "4065.33.000",
-#                        "те1-10",
-#                        "331.00.000",
-#                        "331",
-#                        "331.00",
-#                        "679"
-#                        ]
                     dropdown_bg: [1, 1, 1, 1]
                     on_release: root.menu.open()
             ChooseDate:
@@ -100,7 +86,7 @@
                     pos_hint: {"right": .45, "top": 1}
                     text: "Add"
                     on_release:
-                        root.add_damper(tf_number.text.strip(), dditm_type.current_item, lbl_choose_date.text, tf_location.text.strip(), chbx_isreleased.active, tf_notes.text.strip())
+                        root.add_damper(tf_number.text.strip(), dditm_type.text, lbl_choose_date.text, tf_location.text.strip(), chbx_isreleased.active, tf_notes.text.strip())
                 MDRaisedButton:
                     pos_hint: {"x": .55, "top": 1}
                     text: "Cancel"
