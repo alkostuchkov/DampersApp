@@ -294,7 +294,7 @@ class AddDamperScreen(Screen):
                 self.menu = MDDropdownMenu(
                     caller=self.ids["dditm_type"],
                     items=menu_items,
-                    # position="center",
+                    position="center",
                     width_mult=4,
                     callback=self.set_item
                 )
@@ -390,7 +390,7 @@ class EditDamperScreen(Screen):
                 self.menu = MDDropdownMenu(
                     caller=self.ids["dditm_type"],
                     items=menu_items,
-                    # position="center",
+                    position="center",
                     width_mult=4,
                     callback=self.set_item
                 )
@@ -756,7 +756,7 @@ class MainApp(MDApp):
         if screen_name == "home_screen":
             self.tf_search.focused = False
             self.tf_search.text = ""
-            self.show_dampers()
+            self.get_dampers()
 
         self.screen_manager.current = screen_name
 
