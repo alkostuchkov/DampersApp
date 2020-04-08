@@ -1,5 +1,7 @@
 <EditTypeScreen>:
     tf_type: tf_type
+    # My my_font_size variable.
+    my_font_size: dp(25)
 
     BoxLayout:
         orientation: "vertical"
@@ -8,20 +10,23 @@
         GridLayout:
             cols: 1
             padding: dp(7)
-            spacing: dp(5)
+            spacing: dp(15)
             MDTextField:
                 id: tf_type
                 hint_text: "Type of damper"
                 required: True
                 helper_text: "Can't be empty"
                 helper_text_mode: "on_error"
+                font_size: root.my_font_size
             FloatLayout:
                 spacing: dp(3)
                 MDRaisedButton:
-                    pos_hint: {"right": .45, "top": 1}
+                    pos_hint: {"x": 0, "top": 1}
                     text: "Edit"
+                    size_hint: .47, .2
                     on_release: root.edit_type(tf_type.text.strip())
                 MDRaisedButton:
-                    pos_hint: {"x": .55, "top": 1}
+                    pos_hint: {"right": 1, "top": 1}
                     text: "Cancel"
+                    size_hint: .47, .2
                     on_release: app.change_screen("home_screen")
