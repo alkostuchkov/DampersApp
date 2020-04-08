@@ -1,3 +1,4 @@
+from kivy import Config
 from kivymd.app import MDApp
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.screenmanager import Screen
@@ -19,6 +20,7 @@ from kivymd.uix.menu import MDDropdownMenu
 from kivy.properties import BooleanProperty, StringProperty
 from kivy.animation import Animation
 from kivy.clock import Clock
+from kivy.core.window import Window
 from functools import partial
 from datetime import datetime
 from plyer import filechooser
@@ -27,6 +29,13 @@ import shutil
 import os
 import re
 from damper import Damper
+
+# Turn on android keyboard
+# Config.set("kivy", "keyboard_mode", "system")
+Config.set("kivy", "keyboard_mode", "systemanddock")
+# The current target TextInput widget requesting the keyboard
+# is presented just above the soft keyboard.
+Window.softinput_mode = "below_target"
 
 
 class Container(BoxLayout):  # root widget
