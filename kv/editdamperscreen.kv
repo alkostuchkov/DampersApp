@@ -9,6 +9,8 @@
     tf_location: tf_location
     chbx_isreleased: chbx_isreleased
     tf_notes: tf_notes
+    # My my_font_size variable.
+    my_font_size: dp(25)
 
     BoxLayout:
         orientation: "vertical"
@@ -16,15 +18,15 @@
             toolbar_title: "Edit damper"
         GridLayout:
             cols: 1
-#            pos_hint: {"top": .9}
             padding: dp(7)
-            spacing: dp(5)
+            spacing: dp(15)
             MDTextField:
                 id: tf_number
                 hint_text: "Number of damper"
                 required: True
                 helper_text: "Can't be empty"
                 helper_text_mode: "on_error"
+                font_size: root.my_font_size
             GridLayout:
                 rows: 1
                 size_hint_y: .1
@@ -32,38 +34,8 @@
                     size_hint_x: None
                     width: dp(100)
                     text: "Type:"
-    #            Spinner:
-    #                size_hint_x: .2
-    #                text: "45.30.045"
-    #                values:
-    #                    "45.30.045", \
-    #                    "4065.33.100", \
-    #                    "4065.33.200", \
-    #                    "закс", \
-    #                    "закс 260", \
-    #                    "4065.33.000", \
-    #                    "те1-10", \
-    #                    "331.00.000", \
-    #                    "331", \
-    #                    "331.00", \
-    #                    "679"
                 MDDropDownItem:
                     id: dditm_type
-#                    items:
-#                        [
-#                        "45.30.045",
-#                        "4065.33.100",
-#                        "4065.33.200",
-#                        "zax",
-#                        "zax260",
-#                        ]
-    #                    "4065.33.000",
-    #                    "те1-10",
-    #                    "331.00.000",
-    #                    "331",
-    #                    "331.00",
-    #                    "679"
-    #                    ]
                     dropdown_bg: [1, 1, 1, 1]
                     on_release: root.menu.open()
             ChooseDate:
@@ -76,7 +48,8 @@
                 id: lbl_choose_date
                 text: "[u]{}[/u]".format(date.today())
                 markup: True
-                size_hint: .1, .1
+                size_hint: .1, .4
+                font_size: root.my_font_size - 5
                 on_release: root.show_datepicker()
             MDTextField:
                 id: tf_location
@@ -84,12 +57,14 @@
                 required: True
                 helper_text: "Can't be empty"
                 helper_text_mode: "on_error"
+                font_size: root.my_font_size
             BoxLayout:
                 size_hint_y: .1
                 MDLabel:
                     text: "Is released:"
                     size_hint_x: None
-                    width: dp(100)
+                    width: dp(150)
+                    font_size: root.my_font_size - 5
                 MDCheckbox:
                     id: chbx_isreleased
                     size_hint_x: None
@@ -97,16 +72,16 @@
             MDTextField:
                 id: tf_notes
                 hint_text: "Notes"
+                font_size: root.my_font_size
             FloatLayout:
-                spacing: dp(3)
                 MDRaisedButton:
-                    id: btn_edit
-                    pos_hint: {"right": .45, "top": 1}
+                    pos_hint: {"x": 0, "center_y": .5}
                     text: "Edit"
+                    size_hint: .47, .4
                     on_release:
                         root.edit_damper(tf_number.text.strip(), dditm_type.current_item, lbl_choose_date.text, tf_location.text.strip(), chbx_isreleased.active, tf_notes.text.strip())
                 MDRaisedButton:
-                    id: btn_cancel
-                    pos_hint: {"x": .55, "top": 1}
+                    pos_hint: {"right": 1, "center_y": .5}
                     text: "Cancel"
+                    size_hint: .47, .4
                     on_release: app.change_screen("home_screen")
