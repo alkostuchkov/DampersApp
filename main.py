@@ -718,32 +718,62 @@ class MainApp(MDApp):
 
     def backup_db(self, *args):
         """Backup Database."""
-        chosen_dir = filechooser.choose_dir(title="Choose directory")
-        if chosen_dir:  # If directory for backup is chosen.
+        print(os.path.join(MDApp.user_data_dir))
+        dst_filename = filechooser.save_file()
+        toast(str(dst_filename))
+        if dst_filename and dst_filename != [""]:  # If directory for backup is chosen.
+            chosen_dirname = os.path.dirname(dst_filename[0])
             now = datetime.now()
             now_datetime = (
                 "{}-{}-{}_{}:{}:{}".format(
                     now.year,
                     str(now.month).zfill(2),
                     str(now.day).zfill(2),
-                    now.hour,
-                    now.minute,
-                    now.second
+                    str(now.hour).zfill(2),
+                    str(now.minute).zfill(2),
+                    str(now.second).zfill(2)
                 )
             )
             dirname = os.path.dirname(__file__)
             src_db_path = "{}{}dampers.db".format(dirname, os.sep)
-            dst_filename = "{}{}{}_{}".format(chosen_dir[0], os.sep, now_datetime, "dampers.db")
+            dst_filename = "{}{}{}_{}".format(chosen_dirname, os.sep, now_datetime, "dampers.db")
             try:
                 shutil.copyfile(src_db_path, dst_filename)
             except OSError:
                 toast("SaveBackupError")
             else:
                 toast("Backup file saved")
+        # else:
+        #     toast("Choose the file")
+
+    # def backup_db(self, *args):
+    #     """Backup Database."""
+    #     chosen_dir = filechooser.choose_dir(title="Choose directory")
+    #     if chosen_dir:  # If directory for backup is chosen.
+    #         now = datetime.now()
+    #         now_datetime = (
+    #             "{}-{}-{}_{}:{}:{}".format(
+    #                 now.year,
+    #                 str(now.month).zfill(2),
+    #                 str(now.day).zfill(2),
+    #                 now.hour,
+    #                 now.minute,
+    #                 now.second
+    #             )
+    #         )
+    #         dirname = os.path.dirname(__file__)
+    #         src_db_path = "{}{}dampers.db".format(dirname, os.sep)
+    #         dst_filename = "{}{}{}_{}".format(chosen_dir[0], os.sep, now_datetime, "dampers.db")
+    #         try:
+    #             shutil.copyfile(src_db_path, dst_filename)
+    #         except OSError:
+    #             toast("SaveBackupError")
+    #         else:
+    #             toast("Backup file saved")
 
     def restore_db(self, *args):
         """Restore Database."""
-        src_filename = filechooser.open_file(title="Choose file")
+        src_filename = filechooser.open_file()
         if src_filename:
             dst_db_path = os.path.dirname(__file__)
             try:
