@@ -1,4 +1,5 @@
 from kivy import Config
+from kivy.utils import platform
 from kivymd.app import MDApp
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.screenmanager import Screen
@@ -575,6 +576,11 @@ class MainApp(MDApp):
         return Container()
 
     def on_start(self):
+        if platform == "android":
+            # Runtime permissions.
+            from android.permissions import request_permissions, Permission
+            request_permissions([Permission.WRITE_EXTERNAL_STORAGE])
+
         self.screen_manager = self.root.ids["screen_manager"]
         self.home_screen = self.root.ids["home_screen"]
         self.dampers_container = self.home_screen.ids["dampers_container"]
@@ -716,6 +722,38 @@ class MainApp(MDApp):
                 self.found_dampers.append(self.damper)
         self.show_dampers(is_search=True)
 
+    # def backup_db(self, *args):
+    #     """Backup Database."""
+    #     from plyer import storagepath
+    #
+    #     # dst_filename = filechooser.save_file()
+    #     # if dst_filename and dst_filename != [""]:  # If directory for backup is chosen.
+    #     # chosen_dirname = os.path.dirname(dst_filename[0])
+    #
+    #     chosen_dirname = storagepath.get_downloads_dir()
+    #     now = datetime.now()
+    #     now_datetime = (
+    #         "{}-{}-{}_{}:{}:{}".format(
+    #             now.year,
+    #             str(now.month).zfill(2),
+    #             str(now.day).zfill(2),
+    #             str(now.hour).zfill(2),
+    #             str(now.minute).zfill(2),
+    #             str(now.second).zfill(2)
+    #         )
+    #     )
+    #     dirname = os.path.dirname(__file__)
+    #     src_db_path = "{}{}dampers.db".format(dirname, os.sep)
+    #     dst_filename = "{}{}{}_{}".format(chosen_dirname, os.sep, now_datetime, "dampers.db")
+    #     try:
+    #         shutil.copyfile(src_db_path, dst_filename)
+    #     except OSError:
+    #         toast("SaveBackupError")
+    #     else:
+    #         toast("Backup file saved")
+    #     # else:
+    #     #     toast("Choose the file")
+
     def backup_db(self, *args):
         """Backup Database."""
         chosen_dir = filechooser.choose_dir(title="Choose directory")
@@ -726,9 +764,9 @@ class MainApp(MDApp):
                     now.year,
                     str(now.month).zfill(2),
                     str(now.day).zfill(2),
-                    now.hour,
-                    now.minute,
-                    now.second
+                    str(now.hour).zfill(2),
+                    str(now.minute).zfill(2),
+                    str(now.second).zfill(2)
                 )
             )
             dirname = os.path.dirname(__file__)
@@ -740,10 +778,12 @@ class MainApp(MDApp):
                 toast("SaveBackupError")
             else:
                 toast("Backup file saved")
+        else:
+            toast("Choose the directory")
 
     def restore_db(self, *args):
         """Restore Database."""
-        src_filename = filechooser.open_file(title="Choose file")
+        src_filename = filechooser.open_file()
         if src_filename:
             dst_db_path = os.path.dirname(__file__)
             try:
