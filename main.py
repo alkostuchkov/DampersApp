@@ -540,7 +540,7 @@ class MainApp(MDApp):
             "Edit selected damper": self.edit_selected_damper,
             "Delete selected dampers": self.show_delete_dampers_dialog,
             "Backup Database": self.choose,
-            "Restore Database": self.restore_db,
+            "Restore Database": partial(self.choose, False),
             "Clear DB": self.show_clear_db_dialog,
             "Change theme": self.show_themepicker,
             "Exit": self.stop
@@ -724,44 +724,11 @@ class MainApp(MDApp):
                 self.found_dampers.append(self.damper)
         self.show_dampers(is_search=True)
 
-    # def backup_db(self, *args):
-    #     """Backup Database."""
-    #     from plyer import storagepath
-    #
-    #     # dst_filename = filechooser.save_file()
-    #     # if dst_filename and dst_filename != [""]:  # If directory for backup is chosen.
-    #     # chosen_dirname = os.path.dirname(dst_filename[0])
-    #
-    #     chosen_dirname = storagepath.get_downloads_dir()
-    #     now = datetime.now()
-    #     now_datetime = (
-    #         "{}-{}-{}_{}:{}:{}".format(
-    #             now.year,
-    #             str(now.month).zfill(2),
-    #             str(now.day).zfill(2),
-    #             str(now.hour).zfill(2),
-    #             str(now.minute).zfill(2),
-    #             str(now.second).zfill(2)
-    #         )
-    #     )
-    #     dirname = os.path.dirname(__file__)
-    #     src_db_path = "{}{}dampers.db".format(dirname, os.sep)
-    #     dst_filename = "{}{}{}_{}".format(chosen_dirname, os.sep, now_datetime, "dampers.db")
-    #     try:
-    #         shutil.copyfile(src_db_path, dst_filename)
-    #     except OSError:
-    #         toast("SaveBackupError")
-    #     else:
-    #         toast("Backup file saved")
-    #     # else:
-    #     #     toast("Choose the file")
-
-    def choose(self, *args):
+    def choose(self, is_backup=True, *args):
         """
         Call plyer filechooser API to run a filechooser Activity.
         """
-        # filechooser.open_file(on_selection=self.backup_db, title="Choose directory")
-        filechooser.open_file(on_selection=self.backup_db, title="Choose directory")
+        filechooser.open_file(on_selection=self.backup_db if is_backup else self.restore_db)
 
     def backup_db(self, selection):
         """Backup Database."""
@@ -783,32 +750,26 @@ class MainApp(MDApp):
             dirname = os.getcwd()
             src_db_path = "{}{}dampers.db".format(dirname, os.sep)
             dst_filename = "{}{}{}_{}".format(chosen_dirname, os.sep, now_datetime, "dampers.db")
-            # try:
-            shutil.copyfile(src_db_path, dst_filename)
-            # except OSError as err:
-            #     toast(str(err))
+            try:
+                shutil.copy(src_db_path, dst_filename)
+            except OSError as err:
+                toast(str(err))
                 # toast("SaveBackupError")
-            # else:
-            #     toast("Backup file saved")
+            else:
+                toast("Backup file saved")
         else:
             toast("Choose the directory")
 
-    def choose_db_file(self, *args):
-        """
-        Call plyer filechooser API to run a filechooser Activity.
-        User has to choose the stored before db file.
-        """
-        filechooser.choose_dir(on_selection=self.restore_db, title="Choose directory")
-
     def restore_db(self, selection):
         """Restore Database."""
-        src_filename = filechooser.open_file()
-        if src_filename:
-            dst_db_path = os.path.dirname(__file__)
+        if selection:
+            # dst_db_path = os.path.dirname(__file__)   # doesn't work on Android.
+            dst_db_path = os.getcwd()
             try:
-                shutil.copyfile(src_filename[0], "{}{}{}".format(dst_db_path, os.sep, "dampers.db"))
-            except OSError:
-                toast("RestoreBackupError")
+                shutil.copyfile(selection[0], "{}{}{}".format(dst_db_path, os.sep, "dampers.db"))
+            except OSError as err:
+                toast(str(err))
+                # toast("RestoreBackupError")
             else:
                 toast("Backup file restored")
                 # Get and show dampers after restoring.
