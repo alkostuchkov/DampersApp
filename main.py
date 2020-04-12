@@ -481,7 +481,6 @@ class MainApp(MDApp):
     # For showing/hiding search widget.
     is_search_focused = BooleanProperty(False)
     is_first_started = BooleanProperty(True)
-    selection = ListProperty([])
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
