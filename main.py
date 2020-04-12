@@ -727,11 +727,16 @@ class MainApp(MDApp):
         """
         Call plyer filechooser API to run a filechooser Activity.
         """
-        filechooser.open_file(on_selection=self.backup_db if is_backup else self.restore_db)
+        from android.permissions import request_permissions, Permission, check_permission
+        # Check if the permissions still granted.
+        if not check_permission(Permission.WRITE_EXTERNAL_STORAGE):
+            request_permissions([Permission.WRITE_EXTERNAL_STORAGE])
+        else:
+            filechooser.open_file(on_selection=self.backup_db if is_backup else self.restore_db)
 
     def backup_db(self, selection):
         """Backup Database."""
-        # chosen_dir = filechooser.choose_dir(title="Choose directory")
+        # chosen_dir = filechooser.choose_dir(title="Choose directory")  # Doesn't work on Android (why?).
         chosen_dirname = os.path.dirname(selection[0])
         now = datetime.now()
         now_datetime = (
