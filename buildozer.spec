@@ -36,7 +36,7 @@ version = 0.1
 
 # (list) Application requirements
 # comma separated e.g. requirements = sqlite3,kivy
-requirements = python3,kivy==1.11.1,kivymd,plyer,sqlite3
+requirements = python3,kivy==1.11.1,kivymd,plyer,sqlite3,android
 
 # (str) Custom source folders for requirements
 # Sets custom source for any requirements with recipes
@@ -87,7 +87,7 @@ fullscreen = 0
 
 # (list) Permissions
 # android.permissions = INTERNET,WRITE_EXTERNAL_STORAGE
-android.permissions = INTERNET,WRITE_EXTERNAL_STORAGE
+android.permissions = WRITE_EXTERNAL_STORAGE,READ_EXTERNAL_STORAGE
 
 # (int) Target Android API, should be as high as possible.
 #android.api = 27

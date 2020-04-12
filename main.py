@@ -18,7 +18,7 @@ from kivymd.uix.label import MDLabel
 from kivymd.toast.kivytoast import toast
 from kivymd.uix.dialog import MDDialog
 from kivymd.uix.menu import MDDropdownMenu
-from kivy.properties import BooleanProperty, StringProperty
+from kivy.properties import BooleanProperty, StringProperty, ListProperty
 from kivy.animation import Animation
 from kivy.clock import Clock
 from kivy.core.window import Window
@@ -481,6 +481,7 @@ class MainApp(MDApp):
     # For showing/hiding search widget.
     is_search_focused = BooleanProperty(False)
     is_first_started = BooleanProperty(True)
+    selection = ListProperty([])
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -538,7 +539,7 @@ class MainApp(MDApp):
             "Add damper": partial(self.change_screen, "add_damper_screen"),
             "Edit selected damper": self.edit_selected_damper,
             "Delete selected dampers": self.show_delete_dampers_dialog,
-            "Backup Database": self.backup_db,
+            "Backup Database": self.choose,
             "Restore Database": self.restore_db,
             "Clear DB": self.show_clear_db_dialog,
             "Change theme": self.show_themepicker,
@@ -579,7 +580,8 @@ class MainApp(MDApp):
         if platform == "android":
             # Runtime permissions.
             from android.permissions import request_permissions, Permission
-            request_permissions([Permission.WRITE_EXTERNAL_STORAGE])
+            request_permissions([Permission.WRITE_EXTERNAL_STORAGE,
+                                 Permission.READ_EXTERNAL_STORAGE])
 
         self.screen_manager = self.root.ids["screen_manager"]
         self.home_screen = self.root.ids["home_screen"]
@@ -754,13 +756,21 @@ class MainApp(MDApp):
     #     # else:
     #     #     toast("Choose the file")
 
-    def backup_db(self, *args):
+    def choose(self, *args):
+        """
+        Call plyer filechooser API to run a filechooser Activity.
+        """
+        # filechooser.open_file(on_selection=self.backup_db, title="Choose directory")
+        filechooser.open_file(on_selection=self.backup_db, title="Choose directory")
+
+    def backup_db(self, selection):
         """Backup Database."""
-        chosen_dir = filechooser.choose_dir(title="Choose directory")
-        if chosen_dir:  # If directory for backup is chosen.
+        # chosen_dir = filechooser.choose_dir(title="Choose directory")
+        if selection:  # If directory for backup is chosen.
+            chosen_dirname = os.path.dirname(selection[0])
             now = datetime.now()
             now_datetime = (
-                "{}-{}-{}_{}:{}:{}".format(
+                "{}-{}-{}_{}-{}-{}".format(
                     now.year,
                     str(now.month).zfill(2),
                     str(now.day).zfill(2),
@@ -769,19 +779,28 @@ class MainApp(MDApp):
                     str(now.second).zfill(2)
                 )
             )
-            dirname = os.path.dirname(__file__)
+            # dirname = os.path.dirname(__file__)  # doesn't work on Android.
+            dirname = os.getcwd()
             src_db_path = "{}{}dampers.db".format(dirname, os.sep)
-            dst_filename = "{}{}{}_{}".format(chosen_dir[0], os.sep, now_datetime, "dampers.db")
-            try:
-                shutil.copyfile(src_db_path, dst_filename)
-            except OSError:
-                toast("SaveBackupError")
-            else:
-                toast("Backup file saved")
+            dst_filename = "{}{}{}_{}".format(chosen_dirname, os.sep, now_datetime, "dampers.db")
+            # try:
+            shutil.copyfile(src_db_path, dst_filename)
+            # except OSError as err:
+            #     toast(str(err))
+                # toast("SaveBackupError")
+            # else:
+            #     toast("Backup file saved")
         else:
             toast("Choose the directory")
 
-    def restore_db(self, *args):
+    def choose_db_file(self, *args):
+        """
+        Call plyer filechooser API to run a filechooser Activity.
+        User has to choose the stored before db file.
+        """
+        filechooser.choose_dir(on_selection=self.restore_db, title="Choose directory")
+
+    def restore_db(self, selection):
         """Restore Database."""
         src_filename = filechooser.open_file()
         if src_filename:
