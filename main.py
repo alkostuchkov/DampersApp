@@ -750,7 +750,7 @@ class MainApp(MDApp):
         src_db_path = "{}{}dampers.db".format(dirname, os.sep)
         dst_filename = "{}{}{}_{}".format(chosen_dirname, os.sep, now_datetime, "dampers.db")
         try:
-            shutil.copy(src_db_path, dst_filename)
+            shutil.copyfile(src_db_path, dst_filename)
         except OSError as err:
             toast(str(err))
             # toast("SaveBackupError")
