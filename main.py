@@ -733,49 +733,43 @@ class MainApp(MDApp):
     def backup_db(self, selection):
         """Backup Database."""
         # chosen_dir = filechooser.choose_dir(title="Choose directory")
-        if selection:  # If directory for backup is chosen.
-            chosen_dirname = os.path.dirname(selection[0])
-            now = datetime.now()
-            now_datetime = (
-                "{}-{}-{}_{}-{}-{}".format(
-                    now.year,
-                    str(now.month).zfill(2),
-                    str(now.day).zfill(2),
-                    str(now.hour).zfill(2),
-                    str(now.minute).zfill(2),
-                    str(now.second).zfill(2)
-                )
+        chosen_dirname = os.path.dirname(selection[0])
+        now = datetime.now()
+        now_datetime = (
+            "{}-{}-{}_{}-{}-{}".format(
+                now.year,
+                str(now.month).zfill(2),
+                str(now.day).zfill(2),
+                str(now.hour).zfill(2),
+                str(now.minute).zfill(2),
+                str(now.second).zfill(2)
             )
-            # dirname = os.path.dirname(__file__)  # doesn't work on Android.
-            dirname = os.getcwd()
-            src_db_path = "{}{}dampers.db".format(dirname, os.sep)
-            dst_filename = "{}{}{}_{}".format(chosen_dirname, os.sep, now_datetime, "dampers.db")
-            try:
-                shutil.copy(src_db_path, dst_filename)
-            except OSError as err:
-                toast(str(err))
-                # toast("SaveBackupError")
-            else:
-                toast("Backup file saved")
+        )
+        # dirname = os.path.dirname(__file__)  # doesn't work on Android.
+        dirname = os.getcwd()
+        src_db_path = "{}{}dampers.db".format(dirname, os.sep)
+        dst_filename = "{}{}{}_{}".format(chosen_dirname, os.sep, now_datetime, "dampers.db")
+        try:
+            shutil.copy(src_db_path, dst_filename)
+        except OSError as err:
+            toast(str(err))
+            # toast("SaveBackupError")
         else:
-            toast("Choose the directory")
+            toast("Backup file saved")
 
     def restore_db(self, selection):
         """Restore Database."""
-        if selection:
-            # dst_db_path = os.path.dirname(__file__)   # doesn't work on Android.
-            dst_db_path = os.getcwd()
-            try:
-                shutil.copyfile(selection[0], "{}{}{}".format(dst_db_path, os.sep, "dampers.db"))
-            except OSError as err:
-                toast(str(err))
-                # toast("RestoreBackupError")
-            else:
-                toast("Backup file restored")
-                # Get and show dampers after restoring.
-                self.get_dampers()
+        # dst_db_path = os.path.dirname(__file__)   # doesn't work on Android.
+        dst_db_path = os.getcwd()
+        try:
+            shutil.copyfile(selection[0], "{}{}{}".format(dst_db_path, os.sep, "dampers.db"))
+        except OSError as err:
+            toast(str(err))
+            # toast("RestoreBackupError")
         else:
-            toast("Choose the file")
+            toast("Backup file restored")
+            # Get and show dampers after restoring.
+            self.get_dampers()
 
     def show_themepicker(self, *args):
         picker = MDThemePicker()
