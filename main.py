@@ -18,7 +18,7 @@ from kivymd.uix.label import MDLabel
 from kivymd.toast.kivytoast import toast
 from kivymd.uix.dialog import MDDialog
 from kivymd.uix.menu import MDDropdownMenu
-from kivy.properties import BooleanProperty, StringProperty
+from kivy.properties import BooleanProperty, StringProperty, ListProperty
 from kivy.animation import Animation
 from kivy.clock import Clock
 from kivy.core.window import Window
@@ -538,8 +538,8 @@ class MainApp(MDApp):
             "Add damper": partial(self.change_screen, "add_damper_screen"),
             "Edit selected damper": self.edit_selected_damper,
             "Delete selected dampers": self.show_delete_dampers_dialog,
-            "Backup Database": self.backup_db,
-            "Restore Database": self.restore_db,
+            "Backup Database": self.choose,
+            "Restore Database": partial(self.choose, False),
             "Clear DB": self.show_clear_db_dialog,
             "Change theme": self.show_themepicker,
             "Exit": self.stop
@@ -579,7 +579,8 @@ class MainApp(MDApp):
         if platform == "android":
             # Runtime permissions.
             from android.permissions import request_permissions, Permission
-            request_permissions([Permission.WRITE_EXTERNAL_STORAGE])
+            request_permissions([Permission.WRITE_EXTERNAL_STORAGE,
+                                 Permission.READ_EXTERNAL_STORAGE])
 
         self.screen_manager = self.root.ids["screen_manager"]
         self.home_screen = self.root.ids["home_screen"]
@@ -722,80 +723,57 @@ class MainApp(MDApp):
                 self.found_dampers.append(self.damper)
         self.show_dampers(is_search=True)
 
-    # def backup_db(self, *args):
-    #     """Backup Database."""
-    #     from plyer import storagepath
-    #
-    #     # dst_filename = filechooser.save_file()
-    #     # if dst_filename and dst_filename != [""]:  # If directory for backup is chosen.
-    #     # chosen_dirname = os.path.dirname(dst_filename[0])
-    #
-    #     chosen_dirname = storagepath.get_downloads_dir()
-    #     now = datetime.now()
-    #     now_datetime = (
-    #         "{}-{}-{}_{}:{}:{}".format(
-    #             now.year,
-    #             str(now.month).zfill(2),
-    #             str(now.day).zfill(2),
-    #             str(now.hour).zfill(2),
-    #             str(now.minute).zfill(2),
-    #             str(now.second).zfill(2)
-    #         )
-    #     )
-    #     dirname = os.path.dirname(__file__)
-    #     src_db_path = "{}{}dampers.db".format(dirname, os.sep)
-    #     dst_filename = "{}{}{}_{}".format(chosen_dirname, os.sep, now_datetime, "dampers.db")
-    #     try:
-    #         shutil.copyfile(src_db_path, dst_filename)
-    #     except OSError:
-    #         toast("SaveBackupError")
-    #     else:
-    #         toast("Backup file saved")
-    #     # else:
-    #     #     toast("Choose the file")
+    def choose(self, is_backup=True, *args):
+        """
+        Call plyer filechooser API to run a filechooser Activity.
+        """
+        from android.permissions import request_permissions, Permission, check_permission
+        # Check if the permissions still granted.
+        if not check_permission(Permission.WRITE_EXTERNAL_STORAGE):
+            request_permissions([Permission.WRITE_EXTERNAL_STORAGE])
+        else:
+            filechooser.open_file(on_selection=self.backup_db if is_backup else self.restore_db)
 
-    def backup_db(self, *args):
+    def backup_db(self, selection):
         """Backup Database."""
-        chosen_dir = filechooser.choose_dir(title="Choose directory")
-        if chosen_dir:  # If directory for backup is chosen.
-            now = datetime.now()
-            now_datetime = (
-                "{}-{}-{}_{}:{}:{}".format(
-                    now.year,
-                    str(now.month).zfill(2),
-                    str(now.day).zfill(2),
-                    str(now.hour).zfill(2),
-                    str(now.minute).zfill(2),
-                    str(now.second).zfill(2)
-                )
+        # chosen_dir = filechooser.choose_dir(title="Choose directory")  # Doesn't work on Android (why?).
+        chosen_dirname = os.path.dirname(selection[0])
+        now = datetime.now()
+        now_datetime = (
+            "{}-{}-{}_{}-{}-{}".format(
+                now.year,
+                str(now.month).zfill(2),
+                str(now.day).zfill(2),
+                str(now.hour).zfill(2),
+                str(now.minute).zfill(2),
+                str(now.second).zfill(2)
             )
-            dirname = os.path.dirname(__file__)
-            src_db_path = "{}{}dampers.db".format(dirname, os.sep)
-            dst_filename = "{}{}{}_{}".format(chosen_dir[0], os.sep, now_datetime, "dampers.db")
-            try:
-                shutil.copyfile(src_db_path, dst_filename)
-            except OSError:
-                toast("SaveBackupError")
-            else:
-                toast("Backup file saved")
+        )
+        # dirname = os.path.dirname(__file__)  # doesn't work on Android.
+        dirname = os.getcwd()
+        src_db_path = "{}{}dampers.db".format(dirname, os.sep)
+        dst_filename = "{}{}{}_{}".format(chosen_dirname, os.sep, now_datetime, "dampers.db")
+        try:
+            shutil.copyfile(src_db_path, dst_filename)
+        except OSError as err:
+            toast(str(err))
+            # toast("SaveBackupError")
         else:
-            toast("Choose the directory")
+            toast("Backup file saved")
 
-    def restore_db(self, *args):
+    def restore_db(self, selection):
         """Restore Database."""
-        src_filename = filechooser.open_file()
-        if src_filename:
-            dst_db_path = os.path.dirname(__file__)
-            try:
-                shutil.copyfile(src_filename[0], "{}{}{}".format(dst_db_path, os.sep, "dampers.db"))
-            except OSError:
-                toast("RestoreBackupError")
-            else:
-                toast("Backup file restored")
-                # Get and show dampers after restoring.
-                self.get_dampers()
+        # dst_db_path = os.path.dirname(__file__)   # doesn't work on Android.
+        dst_db_path = os.getcwd()
+        try:
+            shutil.copyfile(selection[0], "{}{}{}".format(dst_db_path, os.sep, "dampers.db"))
+        except OSError as err:
+            toast(str(err))
+            # toast("RestoreBackupError")
         else:
-            toast("Choose the file")
+            toast("Backup file restored")
+            # Get and show dampers after restoring.
+            self.get_dampers()
 
     def show_themepicker(self, *args):
         picker = MDThemePicker()
