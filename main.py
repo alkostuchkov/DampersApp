@@ -18,7 +18,7 @@ from kivymd.uix.label import MDLabel
 from kivymd.toast.kivytoast import toast
 from kivymd.uix.dialog import MDDialog
 from kivymd.uix.menu import MDDropdownMenu
-from kivy.properties import BooleanProperty, StringProperty, ListProperty
+from kivy.properties import BooleanProperty, StringProperty
 from kivy.animation import Animation
 from kivy.clock import Clock
 from kivy.core.window import Window
@@ -491,6 +491,8 @@ class MainApp(MDApp):
         self.found_dampers = []  # Has all found in searching dampers.
         self.menu_sort = None
         self.menu_dots = None
+        # For exit on double tap on the buttnon back.
+        self.is_back_clicked_once = False
 
         self.menu_items_dots = [
             {"text": "Select all",
@@ -572,6 +574,8 @@ class MainApp(MDApp):
 
     def build(self):
         self.theme_cls.primary_palette = "Teal"
+        # Handling the back button.
+        Window.bind(on_keyboard=self.key_input)
 
         return Container()
 
@@ -606,6 +610,28 @@ class MainApp(MDApp):
         )
         self.get_dampers()
         self.is_first_started = False
+
+    def key_input(self, window, key, scancode, codepoint, modifier):
+        if key == 27:  # (the back button key is 27, codepoint is 270).
+            if self.screen_manager.current != "home_screen":
+                self.change_screen("home_screen")
+            elif self.is_back_clicked_once:
+                self.stop()
+            else:
+                self.is_back_clicked_once = True
+                toast("Tap BACK again to exit", duration=1)
+                Clock.schedule_once(self.reset_btn_back_clicked, 3)
+
+            return True
+        else:
+            return False
+
+    def reset_btn_back_clicked(self, *args):
+        """
+        Set is_back_clicked_once to False.
+        There was no double click on the button back for exit.
+        """
+        self.is_back_clicked_once = False
 
     def callback_menu_sort(self, instance):
         """
