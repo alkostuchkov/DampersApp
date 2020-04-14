@@ -79,7 +79,7 @@
                     text: "Add"
                     size_hint: .47, .4
                     on_release:
-                        root.add_damper(tf_number.text.strip(), dditm_type.text, lbl_choose_date.text, tf_location.text.strip(), chbx_isreleased.active, tf_notes.text.strip())
+                        root.add_damper(tf_number.text.strip().replace(" ", ""), dditm_type.text, lbl_choose_date.text, tf_location.text.strip().replace(" ", ""), chbx_isreleased.active, tf_notes.text.strip())
                 MDRaisedButton:
                     pos_hint: {"right": 1, "center_y": .5}
                     text: "Cancel"
