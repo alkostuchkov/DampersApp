@@ -1,0 +1,9 @@
+* text=auto
+
+# force text
+*.py text
+*.kv text
+
+# binary files
+*.jpg binary
+*.png binary
