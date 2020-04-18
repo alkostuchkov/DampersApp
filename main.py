@@ -1,4 +1,4 @@
-from kivy import Config
+from kivy.config import Config
 from kivy.utils import platform
 from kivymd.app import MDApp
 from kivy.uix.boxlayout import BoxLayout
@@ -531,7 +531,7 @@ class MainApp(MDApp):
             {"text": "Exit",
              "icon": "exit-to-app"}
         ]
-        # Dict to process callback_menu_dots.
+        # Dict to process callback_menu_dots like switch in C++.
         self.dict_menu_dots_funcs = {
             "Select all": self.select_all,
             "Cancel all selection": self.cancel_all_selection,
@@ -563,7 +563,7 @@ class MainApp(MDApp):
             {"text": "Sort by 'no order'",
              "icon": "sort-variant-remove"}
         ]
-        # Dict to process callback_menu_sort.
+        # Dict to process callback_menu_sort like switch in C++..
         self.dict_menu_sort_funcs = {
             "Sort by 'number'": partial(self.get_dampers, "by number"),
             "Sort by 'location'": partial(self.get_dampers, "by location"),
