@@ -611,6 +611,12 @@ class MainApp(MDApp):
         self.get_dampers()
         self.is_first_started = False
 
+    # def on_pause(self):
+    #     return True
+
+    # def on_resume(self):
+    #     pass
+
     def key_input(self, window, key, scancode, codepoint, modifier):
         if key == 27:  # (the back button key is 27, codepoint is 270).
             if self.screen_manager.current != "home_screen":
