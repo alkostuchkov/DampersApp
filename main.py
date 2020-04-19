@@ -1,6 +1,7 @@
 from kivy.config import Config
-from kivy.utils import platform
 from kivymd.app import MDApp
+from kivy.utils import platform, get_color_from_hex, get_hex_from_color
+from kivymd.color_definitions import colors
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.screenmanager import Screen
 from kivy.uix.behaviors import ButtonBehavior
@@ -48,10 +49,15 @@ class MyToolbar(ThemableBehavior,
                 MDBoxLayout):
     # Property for each toolbar could change its own title.
     toolbar_title = StringProperty("")
+    tb_primary_palette = StringProperty("Teal")
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.md_bg_color = self.theme_cls.primary_color
+        # self.md_bg_color = self.theme_cls.primary_color
+
+    def on_tb_primary_palette(self, *args):
+        """Changing MyToolbar md_bg_color."""
+        self.md_bg_color = get_color_from_hex(colors[self.tb_primary_palette]["600"])
 
 
 class ChooseDate(ButtonBehavior, MDLabel):
@@ -481,6 +487,7 @@ class MainApp(MDApp):
     # For showing/hiding search widget.
     is_search_focused = BooleanProperty(False)
     is_first_started = BooleanProperty(True)
+    app_primary_palette = StringProperty("Teal")
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -573,7 +580,13 @@ class MainApp(MDApp):
         }
 
     def build(self):
-        self.theme_cls.primary_palette = "Teal"
+        # self.theme_cls.primary_palette = "Teal"
+        # self.theme_cls.theme_style = "Dark"
+        print(self.theme_cls.theme_style)
+        print(self.theme_cls.primary_palette)
+        print(self.theme_cls.accent_palette)
+        print(self.theme_cls.primary_color)
+
         # Handling the back button.
         Window.bind(on_keyboard=self.key_input)
 
@@ -588,6 +601,15 @@ class MainApp(MDApp):
 
         self.screen_manager = self.root.ids["screen_manager"]
         self.home_screen = self.root.ids["home_screen"]
+
+        # print(self.home_screen.ids["tb_home"].tb_primary_palette)
+        self.home_screen.ids["tb_home"].tb_primary_palette = "Blue"
+        self.root.ids["add_type_screen"].ids["tb_addedit"].tb_primary_palette = "Blue"
+        self.root.ids["edit_type_screen"].ids["tb_addedit"].tb_primary_palette = "Blue"
+        self.root.ids["delete_edit_type_screen"].ids["tb_deleteedittype"].tb_primary_palette = "Blue"
+        self.root.ids["add_damper_screen"].ids["tb_addedit"].tb_primary_palette = "Blue"
+        self.root.ids["edit_damper_screen"].ids["tb_addedit"].tb_primary_palette = "Blue"
+
         self.dampers_container = self.home_screen.ids["dampers_container"]
         self.tf_search = self.home_screen.ids["tf_search"]
         self.container = self.home_screen.ids["container"]
@@ -610,6 +632,12 @@ class MainApp(MDApp):
         )
         self.get_dampers()
         self.is_first_started = False
+
+    def on_stop(self):
+        print(self.theme_cls.theme_style)
+        print(self.theme_cls.primary_palette)
+        print(self.theme_cls.accent_palette)
+        print(self.theme_cls.primary_color)
 
     # def on_pause(self):
     #     return True
@@ -810,6 +838,18 @@ class MainApp(MDApp):
     def show_themepicker(self, *args):
         picker = MDThemePicker()
         picker.open()
+        picker.bind(on_dismiss=self.themepicker_dismiss)
+
+    def themepicker_dismiss(self, instance):
+        """
+        Changing the MyToolbar
+        :param instance:
+        :return:
+        """
+        print("my_dismiss")
+        print(self.theme_cls.theme_style)
+        print(self.theme_cls.primary_palette)
+        print(self.theme_cls.accent_palette)
 
     def change_screen(self, screen_name, *args):
         if screen_name == "home_screen":
