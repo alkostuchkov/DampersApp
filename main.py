@@ -49,11 +49,11 @@ class MyToolbar(ThemableBehavior,
                 MDBoxLayout):
     # Property for each toolbar could change its own title.
     toolbar_title = StringProperty("")
-    tb_primary_palette = StringProperty("Teal")
+    tb_primary_palette = StringProperty("")
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        # self.md_bg_color = self.theme_cls.primary_color
+        self.md_bg_color = self.theme_cls.primary_color
 
     def on_tb_primary_palette(self, *args):
         """Changing MyToolbar md_bg_color."""
@@ -500,6 +500,10 @@ class MainApp(MDApp):
         self.menu_dots = None
         # For exit on double tap on the buttnon back.
         self.is_back_clicked_once = False
+        # App theme.
+        self.primary_palette = "Teal"
+        self.theme_style = "Light"
+        self.accent_palette = "Amber"
 
         self.menu_items_dots = [
             {"text": "Select all",
@@ -581,11 +585,6 @@ class MainApp(MDApp):
 
     def build(self):
         # self.theme_cls.primary_palette = "Teal"
-        # self.theme_cls.theme_style = "Dark"
-        print(self.theme_cls.theme_style)
-        print(self.theme_cls.primary_palette)
-        print(self.theme_cls.accent_palette)
-        print(self.theme_cls.primary_color)
 
         # Handling the back button.
         Window.bind(on_keyboard=self.key_input)
@@ -601,15 +600,6 @@ class MainApp(MDApp):
 
         self.screen_manager = self.root.ids["screen_manager"]
         self.home_screen = self.root.ids["home_screen"]
-
-        # print(self.home_screen.ids["tb_home"].tb_primary_palette)
-        self.home_screen.ids["tb_home"].tb_primary_palette = "Blue"
-        self.root.ids["add_type_screen"].ids["tb_addedit"].tb_primary_palette = "Blue"
-        self.root.ids["edit_type_screen"].ids["tb_addedit"].tb_primary_palette = "Blue"
-        self.root.ids["delete_edit_type_screen"].ids["tb_deleteedittype"].tb_primary_palette = "Blue"
-        self.root.ids["add_damper_screen"].ids["tb_addedit"].tb_primary_palette = "Blue"
-        self.root.ids["edit_damper_screen"].ids["tb_addedit"].tb_primary_palette = "Blue"
-
         self.dampers_container = self.home_screen.ids["dampers_container"]
         self.tf_search = self.home_screen.ids["tf_search"]
         self.container = self.home_screen.ids["container"]
@@ -634,6 +624,7 @@ class MainApp(MDApp):
         self.is_first_started = False
 
     def on_stop(self):
+        """Save config."""
         print(self.theme_cls.theme_style)
         print(self.theme_cls.primary_palette)
         print(self.theme_cls.accent_palette)
@@ -842,14 +833,23 @@ class MainApp(MDApp):
 
     def themepicker_dismiss(self, instance):
         """
-        Changing the MyToolbar
-        :param instance:
-        :return:
+        Changing the App primary_palette, accent_palette and theme_style.
+        :param instance: current MDThemePicker.
         """
-        print("my_dismiss")
-        print(self.theme_cls.theme_style)
-        print(self.theme_cls.primary_palette)
-        print(self.theme_cls.accent_palette)
+        self.primary_palette = self.theme_cls.primary_palette
+        self.accent_palette = self.theme_cls.accent_palette
+        self.theme_style = self.theme_cls.theme_style
+
+        self.change_toolbar_theme()
+
+    def change_toolbar_theme(self):
+        """Changing  tb_primary_palette for all MyToolbars."""
+        self.home_screen.ids["tb_home"].tb_primary_palette = self.primary_palette
+        self.root.ids["add_type_screen"].ids["tb_addedit"].tb_primary_palette = self.primary_palette
+        self.root.ids["edit_type_screen"].ids["tb_addedit"].tb_primary_palette = self.primary_palette
+        self.root.ids["delete_edit_type_screen"].ids["tb_deleteedittype"].tb_primary_palette = self.primary_palette
+        self.root.ids["add_damper_screen"].ids["tb_addedit"].tb_primary_palette = self.primary_palette
+        self.root.ids["edit_damper_screen"].ids["tb_addedit"].tb_primary_palette = self.primary_palette
 
     def change_screen(self, screen_name, *args):
         if screen_name == "home_screen":
