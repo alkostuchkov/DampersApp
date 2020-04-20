@@ -1,6 +1,6 @@
-from kivy.config import Config
+from kivy.config import Config, ConfigParser
 from kivymd.app import MDApp
-from kivy.utils import platform, get_color_from_hex, get_hex_from_color
+from kivy.utils import platform, get_color_from_hex
 from kivymd.color_definitions import colors
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.screenmanager import Screen
@@ -500,10 +500,12 @@ class MainApp(MDApp):
         self.menu_dots = None
         # For exit on double tap on the buttnon back.
         self.is_back_clicked_once = False
+        # My config.
+        self.config = ConfigParser()
         # App theme.
         self.primary_palette = "Teal"
-        self.theme_style = "Light"
         self.accent_palette = "Amber"
+        self.theme_style = "Light"
 
         self.menu_items_dots = [
             {"text": "Select all",
@@ -583,6 +585,34 @@ class MainApp(MDApp):
             "Sort by 'no order'": self.get_dampers
         }
 
+    def build_config(self, config):
+        """Default config."""
+        self.config.setdefaults("currenttheme",
+                                {
+                                    "primary_palette": "Teal",
+                                    "accent_palette": "Amber",
+                                    "theme_style": "Light"
+                                })
+
+    def save_config(self):
+        """Save the App config."""
+        self.config.set("currenttheme", "primary_palette", self.primary_palette)
+        self.config.set("currenttheme", "accent_palette", self.accent_palette)
+        self.config.set("currenttheme", "theme_style", self.theme_style)
+        self.config.write()
+
+    def my_load_config(self):
+        """Load the App config."""
+        self.primary_palette = self.config.get("currenttheme", "primary_palette")
+        self.accent_palette = self.config.get("currenttheme", "accent_palette")
+        self.theme_style = self.config.get("currenttheme", "theme_style")
+
+    def apply_config(self):
+        """Apply the App config."""
+        self.theme_cls.primary_palette = self.primary_palette
+        self.theme_cls.accent_palette = self.accent_palette
+        self.theme_cls.theme_style = self.theme_style
+
     def build(self):
         # self.theme_cls.primary_palette = "Teal"
 
@@ -597,6 +627,10 @@ class MainApp(MDApp):
             from android.permissions import request_permissions, Permission
             request_permissions([Permission.WRITE_EXTERNAL_STORAGE,
                                  Permission.READ_EXTERNAL_STORAGE])
+
+        # Loading and applying the App config.
+        self.my_load_config()
+        self.apply_config()
 
         self.screen_manager = self.root.ids["screen_manager"]
         self.home_screen = self.root.ids["home_screen"]
@@ -620,15 +654,14 @@ class MainApp(MDApp):
             # position="bottom",
             width_mult=5
         )
+        self.change_toolbar_theme()
+
         self.get_dampers()
         self.is_first_started = False
 
     def on_stop(self):
         """Save config."""
-        print(self.theme_cls.theme_style)
-        print(self.theme_cls.primary_palette)
-        print(self.theme_cls.accent_palette)
-        print(self.theme_cls.primary_color)
+        self.save_config()
 
     # def on_pause(self):
     #     return True
