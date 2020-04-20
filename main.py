@@ -874,6 +874,7 @@ class MainApp(MDApp):
         self.theme_style = self.theme_cls.theme_style
 
         self.change_toolbar_theme()
+        self.save_config()
 
     def change_toolbar_theme(self):
         """Changing  tb_primary_palette for all MyToolbars."""
