@@ -25,6 +25,7 @@ cache
 .cache
 temp
 .temp
+main.ini
 
 TmpTests
 dampers*.db

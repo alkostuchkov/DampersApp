@@ -1,0 +1,35 @@
+<LanguageScreen>:
+    BoxLayout:
+        orientation: "vertical"
+
+        AddEditToolbar:
+            id: tb_addedit
+            toolbar_title: "Language"
+        GridLayout:
+            cols: 1
+            ScrollView:
+                MDList:
+                    id: lang_container
+                    spacing: dp("1")
+                    LanguageListItem:
+                        id: lang_li_en
+                    #    on_release: TODO: something useful!!!
+                        text: "English"
+                        MyLeftIcon:
+                            icon: "data/images/us_rect.png"
+                        MyRightCheckbox:
+                            id: right_checkbox_en
+                            on_release:
+                                app.avoid_multi_lang_choice(self)
+                                app.lang = "en"
+                    LanguageListItem:
+                        id: lang_li_ru
+                    #    on_release: TODO: something useful!!!
+                        text: "Русский"
+                        MyLeftIcon:
+                            icon: "data/images/ru_rect.png"
+                        MyRightCheckbox:
+                            id: right_checkbox_ru
+                            on_release:
+                                app.avoid_multi_lang_choice(self)
+                                app.lang = "ru"
