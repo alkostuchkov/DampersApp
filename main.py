@@ -526,7 +526,6 @@ class Lang(Observable):
     def switch_lang(self, lang):
         # get the right locales directory, and instanciate a gettext
         try:
-            print("switch_lang")
             locale_dir = os.path.join(os.path.dirname(__file__), 'data', 'locales')
             locales = gettext.translation('dampersapp', locale_dir, languages=[lang])
             self.ugettext = locales.gettext
@@ -553,11 +552,6 @@ class MainApp(MDApp):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-
-        # self.tr = Lang(self.lang)
-        # self.title = self.tr._("Dampers")
-        # print(self.lang)
-
         self.selected_dampers = []  # Every damper selected by MyRightCheckbox add to this list.
         self.all_dampers_in_container = []  # Consists of all adding DamperListItem.
         self.damper = None
@@ -573,89 +567,6 @@ class MainApp(MDApp):
         self.primary_palette = "Teal"
         self.accent_palette = "Amber"
         self.theme_style = "Light"
-
-        # self.menu_items_dots = [
-        #     {"text":  self.tr._("Select all"),
-        #      "icon": "select-all"},
-        #
-        #     {"text":  self.tr._("Cancel all selection"),
-        #      "icon": "select-off"},
-        #
-        #     {"text":  self.tr._("Add type"),
-        #      "icon": "plus"},
-        #
-        #     {"text":  self.tr._("Delete/Edit type"),
-        #      "icon": "delete-outline"},
-        #
-        #     {"text":  self.tr._("Add damper"),
-        #      "icon": "plus"},
-        #
-        #     {"text":  self.tr._("Edit selected damper"),
-        #      "icon": "square-edit-outline"},
-        #
-        #     {"text":  self.tr._("Delete selected dampers"),
-        #      "icon": "delete-outline"},
-        #
-        #     {"text":  self.tr._("Backup Database"),
-        #      "icon": "content-save-outline"},
-        #
-        #     {"text":  self.tr._("Restore Database"),
-        #      "icon": "backup-restore"},
-        #
-        #     {"text":  self.tr._("Clear DB"),
-        #      "icon": "delete-forever-outline"},
-        #
-        #     {"text":  self.tr._("Language"),
-        #      "icon": "web"},
-        #
-        #     {"text":  self.tr._("Change theme"),
-        #      "icon": "theme-light-dark"},
-        #
-        #     {"text":  self.tr._("Exit"),
-        #      "icon": "exit-to-app"}
-        # ]
-        # # Dict to process callback_menu_dots like switch in C++.
-        # self.dict_menu_dots_funcs = {
-        #     self.tr._("Select all"): self.select_all,
-        #     self.tr._("Cancel all selection"): self.cancel_all_selection,
-        #     self.tr._("Add type"): partial(self.change_screen, "add_type_screen"),
-        #     self.tr._("Delete/Edit type"): partial(self.change_screen, "delete_edit_type_screen"),
-        #     self.tr._("Add damper"): partial(self.change_screen, "add_damper_screen"),
-        #     self.tr._("Edit selected damper"): self.edit_selected_damper,
-        #     self.tr._("Delete selected dampers"): self.show_delete_dampers_dialog,
-        #     self.tr._("Backup Database"): self.choose,
-        #     self.tr._("Restore Database"): partial(self.choose, False),
-        #     self.tr._("Clear DB"): self.show_clear_db_dialog,
-        #     self.tr._("Language"): partial(self.change_screen, "language_screen"),
-        #     self.tr._("Change theme"): self.show_themepicker,
-        #     self.tr._("Exit"): self.stop
-        # }
-
-        # self.menu_items_sort = [
-        #     {"text": "Sort by 'number'",
-        #      "icon": "sort-numeric"},
-        #
-        #     {"text": "Sort by 'location'",
-        #      "icon": "format-columns"},
-        #
-        #     {"text": "Sort by 'check date'",
-        #      "icon": "calendar-month"},
-        #
-        #     {"text": "Sort by 'is released'",
-        #      "icon": "check-outline"},
-        #
-        #     {"text": "Sort by 'no order'",
-        #      "icon": "sort-variant-remove"}
-        # ]
-        # # Dict to process callback_menu_sort like switch in C++..
-        # self.dict_menu_sort_funcs = {
-        #     "Sort by 'number'": partial(self.get_dampers, "by number"),
-        #     "Sort by 'location'": partial(self.get_dampers, "by location"),
-        #     "Sort by 'check date'": partial(self.get_dampers, "by check date"),
-        #     "Sort by 'is released'": partial(self.get_dampers, "by is released"),
-        #     "Sort by 'no order'": self.get_dampers
-        # }
-
         # To avoid multi chosen right_checkbox_lang.
         self.lang_checkboxes_dict = dict()
 
@@ -1009,10 +920,13 @@ class MainApp(MDApp):
         """
         Call plyer filechooser API to run a filechooser Activity.
         """
-        from android.permissions import request_permissions, Permission, check_permission
-        # Check if the permissions still granted.
-        if not check_permission(Permission.WRITE_EXTERNAL_STORAGE):
-            request_permissions([Permission.WRITE_EXTERNAL_STORAGE])
+        if platform == "android":
+            from android.permissions import request_permissions, Permission, check_permission
+            # Check if the permissions still granted.
+            if not check_permission(Permission.WRITE_EXTERNAL_STORAGE):
+                request_permissions([Permission.WRITE_EXTERNAL_STORAGE])
+            else:
+                filechooser.open_file(on_selection=self.backup_db if is_backup else self.restore_db)
         else:
             filechooser.open_file(on_selection=self.backup_db if is_backup else self.restore_db)
 
