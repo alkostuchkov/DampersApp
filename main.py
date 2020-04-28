@@ -894,6 +894,7 @@ class MainApp(MDApp):
         self.root.ids["delete_edit_type_screen"].ids["tb_deleteedittype"].tb_primary_palette = self.primary_palette
         self.root.ids["add_damper_screen"].ids["tb_addedit"].tb_primary_palette = self.primary_palette
         self.root.ids["edit_damper_screen"].ids["tb_addedit"].tb_primary_palette = self.primary_palette
+        self.root.ids["language_screen"].ids["tb_addedit"].tb_primary_palette = self.primary_palette
 
     def change_screen(self, screen_name, *args):
         if screen_name == "home_screen":
