@@ -967,7 +967,7 @@ class MainApp(MDApp):
             toast(str(err))
             # toast("RestoreBackupError")
         else:
-            toast(tr._("Backup file restored"))
+            toast(self.tr._("Backup file restored"))
             # Get and show dampers after restoring.
             self.get_dampers()
 
