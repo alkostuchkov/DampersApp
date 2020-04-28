@@ -632,8 +632,8 @@ class MainApp(MDApp):
         self.theme_style = self.config.get("currenttheme", "theme_style")
         self.lang = self.config.get("applanguage", "language")
 
-    def apply_config(self):
-        """Apply the App config."""
+    def apply_mytoolbar_theme(self):
+        """Apply loaded theme for MyToolbar."""
         self.theme_cls.primary_palette = self.primary_palette
         self.theme_cls.accent_palette = self.accent_palette
         self.theme_cls.theme_style = self.theme_style
@@ -655,7 +655,7 @@ class MainApp(MDApp):
 
         # Loading and applying the App config.
         self.my_load_config()
-        self.apply_config()
+        self.apply_mytoolbar_theme()
 
         self.screen_manager = self.root.ids["screen_manager"]
         self.home_screen = self.root.ids["home_screen"]
