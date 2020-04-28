@@ -612,12 +612,17 @@ class MainApp(MDApp):
                                     "accent_palette": "Amber",
                                     "theme_style": "Light"
                                 })
+        self.config.setdefaults("applanguage",
+                                {
+                                    "language": "en"
+                                })
 
     def save_config(self):
         """Save the App config."""
         self.config.set("currenttheme", "primary_palette", self.primary_palette)
         self.config.set("currenttheme", "accent_palette", self.accent_palette)
         self.config.set("currenttheme", "theme_style", self.theme_style)
+        self.config.set("applanguage", "language", self.lang)
         self.config.write()
 
     def my_load_config(self):
@@ -625,6 +630,7 @@ class MainApp(MDApp):
         self.primary_palette = self.config.get("currenttheme", "primary_palette")
         self.accent_palette = self.config.get("currenttheme", "accent_palette")
         self.theme_style = self.config.get("currenttheme", "theme_style")
+        self.lang = self.config.get("applanguage", "language")
 
     def apply_config(self):
         """Apply the App config."""
@@ -677,6 +683,7 @@ class MainApp(MDApp):
         self.change_toolbar_theme()
 
         self.add_lang_checkboxes_into_dict()
+        self.lang_checkboxes_dict[self.lang].active = True
 
         self.get_dampers()
         self.is_first_started = False
