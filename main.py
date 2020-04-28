@@ -9,12 +9,14 @@ from kivymd.uix.behaviors import RectangularElevationBehavior
 from kivymd.theming import ThemableBehavior
 from kivymd.uix.boxlayout import MDBoxLayout
 from kivymd.uix.button import MDIconButton
-from kivymd.uix.list import ILeftBodyTouch, IRightBodyTouch
+from kivymd.uix.list import (
+    ILeftBodyTouch,
+    IRightBodyTouch,
+    ThreeLineRightIconListItem,
+    OneLineRightIconListItem
+)
 from kivymd.uix.selectioncontrol import MDCheckbox
-from kivymd.uix.picker import MDThemePicker
-from kivymd.uix.list import ThreeLineRightIconListItem
-from kivymd.uix.list import OneLineRightIconListItem
-from kivymd.uix.picker import MDDatePicker
+from kivymd.uix.picker import MDThemePicker, MDDatePicker
 from kivymd.uix.label import MDLabel
 from kivymd.toast.kivytoast import toast
 from kivymd.uix.dialog import MDDialog
@@ -81,6 +83,10 @@ class TypeListItem(OneLineRightIconListItem):
 
 
 class HomeScreen(Screen):
+    pass
+
+
+class LanguageScreen(Screen):
     pass
 
 
@@ -538,6 +544,9 @@ class MainApp(MDApp):
             {"text": "Clear DB",
              "icon": "delete-forever-outline"},
 
+            {"text": "Language",
+             "icon": "web"},
+
             {"text": "Change theme",
              "icon": "theme-light-dark"},
 
@@ -556,6 +565,7 @@ class MainApp(MDApp):
             "Backup Database": self.choose,
             "Restore Database": partial(self.choose, False),
             "Clear DB": self.show_clear_db_dialog,
+            "Language": partial(self.change_screen, "language_screen"),
             "Change theme": self.show_themepicker,
             "Exit": self.stop
         }
