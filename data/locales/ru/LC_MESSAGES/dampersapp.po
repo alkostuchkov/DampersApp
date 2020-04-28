@@ -1,0 +1,173 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR ORGANIZATION
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: 2020-04-28 20:05++03\n"
+"PO-Revision-Date: 2020-04-28 20:17+0300\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: pygettext.py 1.5\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: ru\n"
+"X-Generator: Poedit 2.2.1\n"
+
+#: main.py:703
+msgid "Dampers"
+msgstr "Гасители"
+
+#: main.py:706 main.py:747
+msgid "Select all"
+msgstr "Выбрать все"
+
+#: main.py:709 main.py:748
+msgid "Cancel all selection"
+msgstr "Отменить выделение"
+
+#: main.py:712 main.py:749
+msgid "Add type"
+msgstr "Добавить тип"
+
+#: main.py:715 main.py:750
+msgid "Delete/Edit type"
+msgstr "Удалить/Редактировать тип"
+
+#: main.py:718 main.py:751
+msgid "Add damper"
+msgstr "Добавить гаситель"
+
+#: main.py:721 main.py:752
+msgid "Edit selected damper"
+msgstr "Редактировать выбранный гаситель"
+
+#: main.py:724 main.py:753
+msgid "Delete selected dampers"
+msgstr "Удалить выбранные гасители"
+
+#: main.py:727 main.py:754
+msgid "Backup Database"
+msgstr "Сохранить базу данных"
+
+#: main.py:730 main.py:755
+msgid "Restore Database"
+msgstr "Восстановить базу данных"
+
+#: main.py:733 main.py:756
+msgid "Clear DB"
+msgstr "Очистить базу данных"
+
+#: main.py:736 main.py:757
+msgid "Language"
+msgstr "Язык"
+
+#: main.py:739 main.py:758
+msgid "Change theme"
+msgstr "Изменить тему"
+
+#: main.py:742 main.py:759
+msgid "Exit"
+msgstr "Выход"
+
+#: main.py:763 main.py:780
+msgid "By 'number'"
+msgstr "По 'номеру'"
+
+#: main.py:766 main.py:781
+msgid "By 'location'"
+msgstr "По 'расположению'"
+
+#: main.py:769 main.py:782
+msgid "By 'check date'"
+msgstr "По 'дате проверки'"
+
+#: main.py:772 main.py:783
+msgid "By 'is released'"
+msgstr "По 'is released'"
+
+#: main.py:775 main.py:784
+msgid "By 'no order'"
+msgstr "Без сортировки"
+
+#: main.py:878
+msgid "Tap BACK again to exit"
+msgstr "Еще раз НАЗАД для выхода"
+
+#: main.py:920
+msgid "Can't get dampers from the DB"
+msgstr "Не могу получить гасители из БД"
+
+#: main.py:966
+msgid "No dampers in the DB"
+msgstr "Нет гасителей в БД"
+
+#: main.py:1044
+msgid "Backup file saved"
+msgstr "Сохранено успешно"
+
+#: main.py:1056
+msgid "Backup file restored"
+msgstr "Восстановлено успешно"
+
+#: main.py:1099
+msgid "Delete damper"
+msgstr "Удалить гаситель"
+
+#: main.py:1101 main.py:1117
+msgid "Delete"
+msgstr "Удалить"
+
+#: main.py:1102 main.py:1156
+msgid "Cancel"
+msgstr "Отмена"
+
+#: main.py:1105
+msgid ""
+"This action will delete selected dampers\n"
+"from the Database.\n"
+"Do you really want to do this?"
+msgstr ""
+"Это действие удалит выбранные\n"
+"гасители из БД.\n"
+"Вы правда этого хотите?"
+
+#: main.py:1126
+msgid "DeleteDamperError"
+msgstr "DeleteDamperError"
+
+#: main.py:1129
+msgid "Deleted"
+msgstr "Удалено"
+
+#: main.py:1135
+msgid "Select one for editing"
+msgstr "Выберите один для редактирования"
+
+#: main.py:1153
+msgid "Clear Database"
+msgstr "Очистить ДБ"
+
+#: main.py:1155 main.py:1167
+msgid "Clear"
+msgstr "Очистить"
+
+#: main.py:1159
+msgid ""
+"[color={}]This action will delete \n"
+"[b]ALL[/b] data from the Database.\n"
+"Do you really want to do this?[/color]"
+msgstr ""
+"[color={}]Это действие удалит \n"
+"[b]ВСЕ[/b] данные из БД.\n"
+"Вы правда этого хотите?[/color]"
+
+#: main.py:1172
+msgid "ClearDBError"
+msgstr "ClearDBError"
+
+#: main.py:1174
+msgid "Cleared"
+msgstr "Очищено"

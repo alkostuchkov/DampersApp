@@ -526,8 +526,9 @@ class Lang(Observable):
     def switch_lang(self, lang):
         # get the right locales directory, and instanciate a gettext
         try:
+            print("switch_lang")
             locale_dir = os.path.join(os.path.dirname(__file__), 'data', 'locales')
-            locales = gettext.translation('langapp', locale_dir, languages=[lang])
+            locales = gettext.translation('dampersapp', locale_dir, languages=[lang])
             self.ugettext = locales.gettext
 
             # update all the kv rules attached to this text
@@ -538,20 +539,25 @@ class Lang(Observable):
 
 
 # Instantiate an instance of Lang.
-tr = Lang(locale.getdefaultlocale()[0][:2])
+# tr = Lang(locale.getdefaultlocale()[0][:2])
+# tr = Lang("ru")
 
 
 class MainApp(MDApp):
-    title = "Dampers"
+    # Language: get system locale.
+    lang = StringProperty(locale.getdefaultlocale()[0][:2])
     # For showing/hiding search widget.
     is_search_focused = BooleanProperty(False)
     is_first_started = BooleanProperty(True)
     app_primary_palette = StringProperty("Teal")
-    # Language: get system locale.
-    lang = StringProperty(locale.getdefaultlocale()[0][:2])
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+
+        # self.tr = Lang(self.lang)
+        # self.title = self.tr._("Dampers")
+        # print(self.lang)
+
         self.selected_dampers = []  # Every damper selected by MyRightCheckbox add to this list.
         self.all_dampers_in_container = []  # Consists of all adding DamperListItem.
         self.damper = None
@@ -568,87 +574,88 @@ class MainApp(MDApp):
         self.accent_palette = "Amber"
         self.theme_style = "Light"
 
-        self.menu_items_dots = [
-            {"text": "Select all",
-             "icon": "select-all"},
+        # self.menu_items_dots = [
+        #     {"text":  self.tr._("Select all"),
+        #      "icon": "select-all"},
+        #
+        #     {"text":  self.tr._("Cancel all selection"),
+        #      "icon": "select-off"},
+        #
+        #     {"text":  self.tr._("Add type"),
+        #      "icon": "plus"},
+        #
+        #     {"text":  self.tr._("Delete/Edit type"),
+        #      "icon": "delete-outline"},
+        #
+        #     {"text":  self.tr._("Add damper"),
+        #      "icon": "plus"},
+        #
+        #     {"text":  self.tr._("Edit selected damper"),
+        #      "icon": "square-edit-outline"},
+        #
+        #     {"text":  self.tr._("Delete selected dampers"),
+        #      "icon": "delete-outline"},
+        #
+        #     {"text":  self.tr._("Backup Database"),
+        #      "icon": "content-save-outline"},
+        #
+        #     {"text":  self.tr._("Restore Database"),
+        #      "icon": "backup-restore"},
+        #
+        #     {"text":  self.tr._("Clear DB"),
+        #      "icon": "delete-forever-outline"},
+        #
+        #     {"text":  self.tr._("Language"),
+        #      "icon": "web"},
+        #
+        #     {"text":  self.tr._("Change theme"),
+        #      "icon": "theme-light-dark"},
+        #
+        #     {"text":  self.tr._("Exit"),
+        #      "icon": "exit-to-app"}
+        # ]
+        # # Dict to process callback_menu_dots like switch in C++.
+        # self.dict_menu_dots_funcs = {
+        #     self.tr._("Select all"): self.select_all,
+        #     self.tr._("Cancel all selection"): self.cancel_all_selection,
+        #     self.tr._("Add type"): partial(self.change_screen, "add_type_screen"),
+        #     self.tr._("Delete/Edit type"): partial(self.change_screen, "delete_edit_type_screen"),
+        #     self.tr._("Add damper"): partial(self.change_screen, "add_damper_screen"),
+        #     self.tr._("Edit selected damper"): self.edit_selected_damper,
+        #     self.tr._("Delete selected dampers"): self.show_delete_dampers_dialog,
+        #     self.tr._("Backup Database"): self.choose,
+        #     self.tr._("Restore Database"): partial(self.choose, False),
+        #     self.tr._("Clear DB"): self.show_clear_db_dialog,
+        #     self.tr._("Language"): partial(self.change_screen, "language_screen"),
+        #     self.tr._("Change theme"): self.show_themepicker,
+        #     self.tr._("Exit"): self.stop
+        # }
 
-            {"text": "Cancel all selection",
-             "icon": "select-off"},
+        # self.menu_items_sort = [
+        #     {"text": "Sort by 'number'",
+        #      "icon": "sort-numeric"},
+        #
+        #     {"text": "Sort by 'location'",
+        #      "icon": "format-columns"},
+        #
+        #     {"text": "Sort by 'check date'",
+        #      "icon": "calendar-month"},
+        #
+        #     {"text": "Sort by 'is released'",
+        #      "icon": "check-outline"},
+        #
+        #     {"text": "Sort by 'no order'",
+        #      "icon": "sort-variant-remove"}
+        # ]
+        # # Dict to process callback_menu_sort like switch in C++..
+        # self.dict_menu_sort_funcs = {
+        #     "Sort by 'number'": partial(self.get_dampers, "by number"),
+        #     "Sort by 'location'": partial(self.get_dampers, "by location"),
+        #     "Sort by 'check date'": partial(self.get_dampers, "by check date"),
+        #     "Sort by 'is released'": partial(self.get_dampers, "by is released"),
+        #     "Sort by 'no order'": self.get_dampers
+        # }
 
-            {"text": "Add type",
-             "icon": "plus"},
-
-            {"text": "Delete/Edit type",
-             "icon": "delete-outline"},
-
-            {"text": "Add damper",
-             "icon": "plus"},
-
-            {"text": "Edit selected damper",
-             "icon": "square-edit-outline"},
-
-            {"text": "Delete selected dampers",
-             "icon": "delete-outline"},
-
-            {"text": "Backup Database",
-             "icon": "content-save-outline"},
-
-            {"text": "Restore Database",
-             "icon": "backup-restore"},
-
-            {"text": "Clear DB",
-             "icon": "delete-forever-outline"},
-
-            {"text": "Language",
-             "icon": "web"},
-
-            {"text": "Change theme",
-             "icon": "theme-light-dark"},
-
-            {"text": "Exit",
-             "icon": "exit-to-app"}
-        ]
-        # Dict to process callback_menu_dots like switch in C++.
-        self.dict_menu_dots_funcs = {
-            "Select all": self.select_all,
-            "Cancel all selection": self.cancel_all_selection,
-            "Add type": partial(self.change_screen, "add_type_screen"),
-            "Delete/Edit type": partial(self.change_screen, "delete_edit_type_screen"),
-            "Add damper": partial(self.change_screen, "add_damper_screen"),
-            "Edit selected damper": self.edit_selected_damper,
-            "Delete selected dampers": self.show_delete_dampers_dialog,
-            "Backup Database": self.choose,
-            "Restore Database": partial(self.choose, False),
-            "Clear DB": self.show_clear_db_dialog,
-            "Language": partial(self.change_screen, "language_screen"),
-            "Change theme": self.show_themepicker,
-            "Exit": self.stop
-        }
-
-        self.menu_items_sort = [
-            {"text": "Sort by 'number'",
-             "icon": "sort-numeric"},
-
-            {"text": "Sort by 'location'",
-             "icon": "format-columns"},
-
-            {"text": "Sort by 'check date'",
-             "icon": "calendar-month"},
-
-            {"text": "Sort by 'is released'",
-             "icon": "check-outline"},
-
-            {"text": "Sort by 'no order'",
-             "icon": "sort-variant-remove"}
-        ]
-        # Dict to process callback_menu_sort like switch in C++..
-        self.dict_menu_sort_funcs = {
-            "Sort by 'number'": partial(self.get_dampers, "by number"),
-            "Sort by 'location'": partial(self.get_dampers, "by location"),
-            "Sort by 'check date'": partial(self.get_dampers, "by check date"),
-            "Sort by 'is released'": partial(self.get_dampers, "by is released"),
-            "Sort by 'no order'": self.get_dampers
-        }
         # To avoid multi chosen right_checkbox_lang.
         self.lang_checkboxes_dict = dict()
 
@@ -687,8 +694,95 @@ class MainApp(MDApp):
         self.theme_cls.theme_style = self.theme_style
 
     def build(self):
-        # self.theme_cls.primary_palette = "Teal"
+        # Loading and applying the App config.
+        # Impossible to execute self.my_load_config() in __init__
+        # because of configparser.NoSectionError: No section: 'currenttheme'.
+        self.my_load_config()
+        # Instantiate an instance of Lang.
+        self.tr = Lang(self.lang)
+        self.title = self.tr._("Dampers")
 
+        self.menu_items_dots = [
+            {"text":  self.tr._("Select all"),
+             "icon": "select-all"},
+
+            {"text":  self.tr._("Cancel all selection"),
+             "icon": "select-off"},
+
+            {"text":  self.tr._("Add type"),
+             "icon": "plus"},
+
+            {"text":  self.tr._("Delete/Edit type"),
+             "icon": "delete-outline"},
+
+            {"text":  self.tr._("Add damper"),
+             "icon": "plus"},
+
+            {"text":  self.tr._("Edit selected damper"),
+             "icon": "square-edit-outline"},
+
+            {"text":  self.tr._("Delete selected dampers"),
+             "icon": "delete-outline"},
+
+            {"text":  self.tr._("Backup Database"),
+             "icon": "content-save-outline"},
+
+            {"text":  self.tr._("Restore Database"),
+             "icon": "backup-restore"},
+
+            {"text":  self.tr._("Clear DB"),
+             "icon": "delete-forever-outline"},
+
+            {"text":  self.tr._("Language"),
+             "icon": "web"},
+
+            {"text":  self.tr._("Change theme"),
+             "icon": "theme-light-dark"},
+
+            {"text":  self.tr._("Exit"),
+             "icon": "exit-to-app"}
+        ]
+        # Dict to process callback_menu_dots like switch in C++.
+        self.dict_menu_dots_funcs = {
+            self.tr._("Select all"): self.select_all,
+            self.tr._("Cancel all selection"): self.cancel_all_selection,
+            self.tr._("Add type"): partial(self.change_screen, "add_type_screen"),
+            self.tr._("Delete/Edit type"): partial(self.change_screen, "delete_edit_type_screen"),
+            self.tr._("Add damper"): partial(self.change_screen, "add_damper_screen"),
+            self.tr._("Edit selected damper"): self.edit_selected_damper,
+            self.tr._("Delete selected dampers"): self.show_delete_dampers_dialog,
+            self.tr._("Backup Database"): self.choose,
+            self.tr._("Restore Database"): partial(self.choose, False),
+            self.tr._("Clear DB"): self.show_clear_db_dialog,
+            self.tr._("Language"): partial(self.change_screen, "language_screen"),
+            self.tr._("Change theme"): self.show_themepicker,
+            self.tr._("Exit"): self.stop
+        }
+
+        self.menu_items_sort = [
+            {"text": self.tr._("By 'number'"),
+             "icon": "sort-numeric"},
+
+            {"text": self.tr._("By 'location'"),
+             "icon": "format-columns"},
+
+            {"text": self.tr._("By 'check date'"),
+             "icon": "calendar-month"},
+
+            {"text": self.tr._("By 'is released'"),
+             "icon": "check-outline"},
+
+            {"text": self.tr._("By 'no order'"),
+             "icon": "sort-variant-remove"}
+        ]
+        # Dict to process callback_menu_sort like switch in C++..
+        self.dict_menu_sort_funcs = {
+            self.tr._("By 'number'"): partial(self.get_dampers, "by number"),
+            self.tr._("By 'location'"): partial(self.get_dampers, "by location"),
+            self.tr._("By 'check date'"): partial(self.get_dampers, "by check date"),
+            self.tr._("By 'is released'"): partial(self.get_dampers, "by is released"),
+            self.tr._("By 'no order'"): self.get_dampers
+        }
         # Handling the back button.
         Window.bind(on_keyboard=self.key_input)
 
@@ -701,8 +795,6 @@ class MainApp(MDApp):
             request_permissions([Permission.WRITE_EXTERNAL_STORAGE,
                                  Permission.READ_EXTERNAL_STORAGE])
 
-        # Loading and applying the App config.
-        self.my_load_config()
         self.apply_mytoolbar_theme()
 
         self.screen_manager = self.root.ids["screen_manager"]
@@ -757,7 +849,12 @@ class MainApp(MDApp):
 
     def on_lang(self, instance, lang):
         """User changed language."""
-        tr.switch_lang(lang)
+        # Skip the first tr.switch_lang
+        # because self.tr is not defined yet.
+        # The first switch will be in the build method: self.tr = Lang(self.lang)
+        # after self.my_load_config().
+        if not self.is_first_started:
+            self.tr.switch_lang(lang)
 
     def avoid_multi_lang_choice(self, chosen_checkbox):
         """
@@ -778,7 +875,7 @@ class MainApp(MDApp):
                 self.stop()
             else:
                 self.is_back_clicked_once = True
-                toast("Tap BACK again to exit", duration=1)
+                toast(self.tr._("Tap BACK again to exit"), duration=1)
                 Clock.schedule_once(self.reset_btn_back_clicked, 3)
 
             return True
@@ -820,7 +917,7 @@ class MainApp(MDApp):
         try:
             self.dampers = self.damper.get_dampers(order)
         except sqlite3.DatabaseError:
-            toast("Can't get dampers from the DB")
+            toast(self.tr._("Can't get dampers from the DB"))
         else:
             # Not to show_dampers in the first start
             # because it'll be done in change_screen.
@@ -866,7 +963,7 @@ class MainApp(MDApp):
                 self.all_dampers_in_container.append(a_damper_list_item)
         else:
             # Clock.schedule_once(lambda x: (toast("No dampers in the DB")), 4)
-            toast("No dampers in the DB")
+            toast(self.tr._("No dampers in the DB"))
 
     def show_search(self, *args):
         """Show search."""
@@ -944,7 +1041,7 @@ class MainApp(MDApp):
             toast(str(err))
             # toast("SaveBackupError")
         else:
-            toast("Backup file saved")
+            toast(self.tr._("Backup file saved"))
 
     def restore_db(self, selection):
         """Restore Database."""
@@ -956,7 +1053,7 @@ class MainApp(MDApp):
             toast(str(err))
             # toast("RestoreBackupError")
         else:
-            toast("Backup file restored")
+            toast(tr._("Backup file restored"))
             # Get and show dampers after restoring.
             self.get_dampers()
 
@@ -999,15 +1096,15 @@ class MainApp(MDApp):
         """Show delete damper dialog."""
         if self.selected_dampers:
             dialog = MDDialog(
-                title="Delete damper",
+                title=self.tr._("Delete damper"),
                 size_hint=(.7, .4),
-                text_button_ok="Delete",
-                text_button_cancel="Cancel",
+                text_button_ok=self.tr._("Delete"),
+                text_button_cancel=self.tr._("Cancel"),
                 auto_dismiss=False,
                 events_callback=self.delete_selected_dampers,
-                text="This action will delete selected dampers"
+                text=self.tr._("This action will delete selected dampers"
                      "\nfrom the Database."
-                     "\nDo you really want to do this?"
+                     "\nDo you really want to do this?")
             )
 
             dialog.open()
@@ -1017,7 +1114,7 @@ class MainApp(MDApp):
         Delete selected items
         from DB and _item_container.
         """
-        if text_of_selection == "Delete":
+        if text_of_selection == self.tr._("Delete"):
             # if self.selected_dampers:
             for selected_damper in self.selected_dampers:
                 # Get the damper the_number.
@@ -1026,16 +1123,16 @@ class MainApp(MDApp):
                 try:
                     damper.delete_damper(damper_number)
                 except sqlite3.DatabaseError:
-                    toast("DeleteDamperError")
+                    toast(self.tr._("DeleteDamperError"))
                 else:
                     self.dampers_container.remove_widget(selected_damper)
-            toast("Deleted")
+            toast(self.tr._("Deleted"))
 
     def edit_selected_damper(self, *args):
         """Edit selected damper."""
         if self.selected_dampers:  # if self.selected_dampers is not empty.
             if len(self.selected_dampers) > 1:
-                toast("Select one for editing")
+                toast(self.tr._("Select one for editing"))
             else:
                 number_location = self.selected_dampers[0].text.split()
                 checkdate_isreleased = self.selected_dampers[0].secondary_text.split()
@@ -1053,28 +1150,28 @@ class MainApp(MDApp):
     def show_clear_db_dialog(self, *args):
         """Show clear DB dialog."""
         dialog = MDDialog(
-            title="Clear Database",
+            title=self.tr._("Clear Database"),
             size_hint=(.7, .4),
-            text_button_ok="Clear",
-            text_button_cancel="Cancel",
+            text_button_ok=self.tr._("Clear"),
+            text_button_cancel=self.tr._("Cancel"),
             auto_dismiss=False,
             events_callback=self.clear_db,
-            text="[color={}]This action will delete "
-                 "\n[b]ALL[/b] data from the Database."
-                 "\nDo you really want to do this?[/color]".format("#FF0000"))
+            text=self.tr._("[color={}]This action will delete "
+                      "\n[b]ALL[/b] data from the Database."
+                      "\nDo you really want to do this?[/color]").format("#FF0000"))
 
         dialog.open()
 
     def clear_db(self, text_of_selection, *args):
         """Delete ALL date from the DB."""
-        if text_of_selection == "Clear":
+        if text_of_selection == self.tr._("Clear"):
             damper = Damper()
             try:
                 damper.clear_db()
             except sqlite3.DatabaseError:
-                toast("ClearDBError")
+                toast(self.tr._("ClearDBError"))
             else:
-                toast("Cleared")
+                toast(self.tr._("Cleared"))
                 # Delay for showing toast("Cleared")
                 Clock.schedule_once(self.show_dampers, 1)
 
