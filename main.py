@@ -13,7 +13,8 @@ from kivymd.uix.list import (
     ILeftBodyTouch,
     IRightBodyTouch,
     ThreeLineRightIconListItem,
-    OneLineRightIconListItem
+    OneLineRightIconListItem,
+    OneLineAvatarIconListItem
 )
 from kivymd.uix.selectioncontrol import MDCheckbox
 from kivymd.uix.picker import MDThemePicker, MDDatePicker
@@ -79,6 +80,10 @@ class DamperListItem(ThreeLineRightIconListItem):
 
 
 class TypeListItem(OneLineRightIconListItem):
+    pass
+
+
+class LanguageListItem(OneLineAvatarIconListItem):
     pass
 
 
@@ -494,6 +499,8 @@ class MainApp(MDApp):
     is_search_focused = BooleanProperty(False)
     is_first_started = BooleanProperty(True)
     app_primary_palette = StringProperty("Teal")
+    # Language
+    lang = StringProperty("en")
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -594,6 +601,8 @@ class MainApp(MDApp):
             "Sort by 'is released'": partial(self.get_dampers, "by is released"),
             "Sort by 'no order'": self.get_dampers
         }
+        # To avoid multi chosen right_checkbox_lang.
+        self.lang_checkboxes_dict = dict()
 
     def build_config(self, config):
         """Default config."""
@@ -647,6 +656,7 @@ class MainApp(MDApp):
         self.dampers_container = self.home_screen.ids["dampers_container"]
         self.tf_search = self.home_screen.ids["tf_search"]
         self.container = self.home_screen.ids["container"]
+        self.lang_screen = self.root.ids["language_screen"]
         # For passing old_damper info into the EditDamperScreen.
         self.edit_damper_screen = self.root.ids["edit_damper_screen"]
         # Creating MyToolbar dots and sort menus.
@@ -666,8 +676,19 @@ class MainApp(MDApp):
         )
         self.change_toolbar_theme()
 
+        self.add_lang_checkboxes_into_dict()
+
         self.get_dampers()
         self.is_first_started = False
+
+    def add_lang_checkboxes_into_dict(self):
+        """
+        Store all right_checkbox_(lang) into the lang_checkboxes_dict
+        to control which right_checkbox is chosen.
+        To avoid multi lang choice.
+        """
+        self.lang_checkboxes_dict["en"] = self.lang_screen.ids["right_checkbox_en"]
+        self.lang_checkboxes_dict["ru"] = self.lang_screen.ids["right_checkbox_ru"]
 
     def on_stop(self):
         """Save config."""
@@ -678,6 +699,21 @@ class MainApp(MDApp):
 
     # def on_resume(self):
     #     pass
+
+    def on_lang(self, instance, lang):
+        """User changed language."""
+        print(lang)
+
+    def avoid_multi_lang_choice(self, chosen_checkbox):
+        """
+        Reset right_checkbox_lang active for all languages
+        and remain only one checkbox active.
+        """
+        for lang in self.lang_checkboxes_dict:
+            if self.lang_checkboxes_dict[lang] is not chosen_checkbox:
+                self.lang_checkboxes_dict[lang].active = False
+            else:
+                chosen_checkbox.active = True
 
     def key_input(self, window, key, scancode, codepoint, modifier):
         if key == 27:  # (the back button key is 27, codepoint is 270).
