@@ -26,6 +26,7 @@ from kivy.properties import BooleanProperty, StringProperty
 from kivy.animation import Animation
 from kivy.clock import Clock
 from kivy.core.window import Window
+from kivy.lang import Observable
 from functools import partial
 from datetime import datetime
 from plyer import filechooser
@@ -33,6 +34,8 @@ import sqlite3
 import shutil
 import os
 import re
+import locale
+import gettext
 from damper import Damper
 
 # Turn on android keyboard
@@ -493,14 +496,59 @@ class EditDamperScreen(Screen):
         self.lbl_choose_date.text = "[u]{}[/u]".format(date)
 
 
+class Lang(Observable):
+    observers = []
+    lang = None
+
+    def __init__(self, defaultlang):
+        super(Lang, self).__init__()
+        self.ugettext = None
+        self.lang = defaultlang
+        self.switch_lang(self.lang)
+
+    def _(self, text):
+        return self.ugettext(text)
+
+    def fbind(self, name, func, args, **kwargs):
+        if name == "_":
+            self.observers.append((func, args, kwargs))
+        else:
+            return super(Lang, self).fbind(name, func, *largs, **kwargs)
+
+    def funbind(self, name, func, args, **kwargs):
+        if name == "_":
+            key = (func, args, kwargs)
+            if key in self.observers:
+                self.observers.remove(key)
+        else:
+            return super(Lang, self).funbind(name, func, *args, **kwargs)
+
+    def switch_lang(self, lang):
+        # get the right locales directory, and instanciate a gettext
+        try:
+            locale_dir = os.path.join(os.path.dirname(__file__), 'data', 'locales')
+            locales = gettext.translation('langapp', locale_dir, languages=[lang])
+            self.ugettext = locales.gettext
+
+            # update all the kv rules attached to this text
+            for func, largs, kwargs in self.observers:
+                func(largs, None, None)
+        except:
+            pass
+
+
+# Instantiate an instance of Lang.
+tr = Lang(locale.getdefaultlocale()[0][:2])
+
+
 class MainApp(MDApp):
     title = "Dampers"
     # For showing/hiding search widget.
     is_search_focused = BooleanProperty(False)
     is_first_started = BooleanProperty(True)
     app_primary_palette = StringProperty("Teal")
-    # Language
-    lang = StringProperty("en")
+    # Language: get system locale.
+    lang = StringProperty(locale.getdefaultlocale()[0][:2])
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -614,7 +662,7 @@ class MainApp(MDApp):
                                 })
         self.config.setdefaults("applanguage",
                                 {
-                                    "language": "en"
+                                    "language": self.lang
                                 })
 
     def save_config(self):
@@ -709,7 +757,7 @@ class MainApp(MDApp):
 
     def on_lang(self, instance, lang):
         """User changed language."""
-        print(lang)
+        tr.switch_lang(lang)
 
     def avoid_multi_lang_choice(self, chosen_checkbox):
         """
