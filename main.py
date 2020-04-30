@@ -1087,7 +1087,7 @@ class MainApp(MDApp):
             else:
                 toast(self.tr._("Cleared"))
                 # Delay for showing toast("Cleared")
-                Clock.schedule_once(self.show_dampers, 1)
+                Clock.schedule_once(self.get_dampers, 1)
 
     def select_all(self, *args):
         """Select all elements."""
