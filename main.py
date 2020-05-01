@@ -752,11 +752,11 @@ class MainApp(MDApp):
         """Save config."""
         self.save_config()
 
-    # def on_pause(self):
-    #     return True
+    def on_pause(self):
+        return True
 
-    # def on_resume(self):
-    #     pass
+    def on_resume(self):
+        pass
 
     def on_lang(self, instance, lang):
         """User changed language."""
