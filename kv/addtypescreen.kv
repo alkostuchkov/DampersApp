@@ -21,13 +21,8 @@
                 font_size: root.my_font_size
             FloatLayout:
                 MDRaisedButton:
-                    pos_hint: {"x": 0, "top": 1}
+                    pos_hint: {"center_x": .5, "top": 1}
                     text: "Add"
-                    size_hint: .47, .2
+                    size_hint: .8, .15
                     on_release:
                         root.add_type(tf_type.text.strip())
-                MDRaisedButton:
-                    pos_hint: {"right": 1, "top": 1}
-                    text: "Cancel"
-                    size_hint: .47, .2
-                    on_release: app.change_screen("home_screen")

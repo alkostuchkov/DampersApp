@@ -76,13 +76,8 @@
                 font_size: root.my_font_size
             FloatLayout:
                 MDRaisedButton:
-                    pos_hint: {"x": 0, "center_y": .5}
+                    pos_hint: {"center_x": .5, "top": 1}
                     text: "Edit"
-                    size_hint: .47, .4
+                    size_hint: .8, .4
                     on_release:
                         root.edit_damper(tf_number.text.strip().replace(" ", ""), dditm_type.current_item, lbl_choose_date.text, tf_location.text.strip().replace(" ", ""), chbx_isreleased.active, tf_notes.text.strip())
-                MDRaisedButton:
-                    pos_hint: {"right": 1, "center_y": .5}
-                    text: "Cancel"
-                    size_hint: .47, .4
-                    on_release: app.change_screen("home_screen")
