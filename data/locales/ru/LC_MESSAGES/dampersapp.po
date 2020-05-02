@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2020-05-02 11:19++03\n"
-"PO-Revision-Date: 2020-05-02 11:31+0300\n"
+"POT-Creation-Date: 2020-05-02 13:22++03\n"
+"PO-Revision-Date: 2020-05-02 13:32+0300\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -135,11 +135,11 @@ msgstr "Нет типов в БД"
 msgid "Delete damper type"
 msgstr "Удалить тип"
 
-#: main.py:245 main.py:262 main.py:1015 main.py:1031
+#: main.py:245 main.py:262 main.py:1026 main.py:1042
 msgid "Delete"
 msgstr "Удалить"
 
-#: main.py:246 main.py:1016 main.py:1070
+#: main.py:246 main.py:1027 main.py:1081
 msgid "Cancel"
 msgstr "Отмена"
 
@@ -155,11 +155,11 @@ msgstr ""
 "с данными типами.\n"
 "Вы правда этого хотите?"
 
-#: main.py:273 main.py:1043
+#: main.py:273 main.py:1054
 msgid "Deleted"
 msgstr "Удалено"
 
-#: main.py:281 main.py:1049
+#: main.py:281 main.py:1060
 msgid "Select one for editing"
 msgstr "Выберите один для редактирования"
 
@@ -231,31 +231,47 @@ msgstr "По 'выпущен'"
 msgid "By 'no order'"
 msgstr "Без сортировки"
 
-#: main.py:789
+#: main.py:771
+msgid "Change language"
+msgstr "Изменить язык"
+
+#: main.py:773
+msgid "Ok"
+msgstr "Ок"
+
+#: main.py:776
+msgid ""
+"You have to restart the app\n"
+"to change the language completely."
+msgstr ""
+"Вы должны перезапустить приложение\n"
+"для завешения перевода."
+
+#: main.py:800
 msgid "Tap BACK again to exit"
 msgstr "Еще раз НАЗАД для выхода"
 
-#: main.py:831
+#: main.py:842
 msgid "Can't get dampers from the DB"
 msgstr "Не могу получить гасители из БД"
 
-#: main.py:877
+#: main.py:888
 msgid "No dampers in the DB"
 msgstr "Нет гасителей в БД"
 
-#: main.py:958
+#: main.py:969
 msgid "Backup file saved"
 msgstr "Сохранено успешно"
 
-#: main.py:970
+#: main.py:981
 msgid "Backup file restored"
 msgstr "Восстановлено успешно"
 
-#: main.py:1013
+#: main.py:1024
 msgid "Delete damper"
 msgstr "Удалить гаситель"
 
-#: main.py:1019
+#: main.py:1030
 msgid ""
 "This action will delete selected dampers\n"
 "from the Database.\n"
@@ -265,15 +281,15 @@ msgstr ""
 "гасители из БД.\n"
 "Вы правда этого хотите?"
 
-#: main.py:1067
+#: main.py:1078
 msgid "Clear Database"
 msgstr "Очистить ДБ"
 
-#: main.py:1069 main.py:1081
+#: main.py:1080 main.py:1092
 msgid "Clear"
 msgstr "Очистить"
 
-#: main.py:1073
+#: main.py:1084
 msgid ""
 "[color={}]This action will delete \n"
 "[b]ALL[/b] data from the Database.\n"
@@ -283,6 +299,6 @@ msgstr ""
 "[b]ВСЕ[/b] данные из БД.\n"
 "Вы правда этого хотите?[/color]"
 
-#: main.py:1088
+#: main.py:1099
 msgid "Cleared"
 msgstr "Очищено"
