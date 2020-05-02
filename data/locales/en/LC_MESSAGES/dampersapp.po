@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2020-04-28 20:05++03\n"
+"POT-Creation-Date: 2020-05-02 10:41++03\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -15,153 +15,262 @@ msgstr ""
 "Generated-By: pygettext.py 1.5\n"
 
 
-#: main.py:703
-msgid "Dampers"
-msgstr ""
-
-#: main.py:706 main.py:747
-msgid "Select all"
-msgstr ""
-
-#: main.py:709 main.py:748
-msgid "Cancel all selection"
-msgstr ""
-
-#: main.py:712 main.py:749
-msgid "Add type"
-msgstr ""
-
-#: main.py:715 main.py:750
-msgid "Delete/Edit type"
-msgstr ""
-
-#: main.py:718 main.py:751
+#: kv/adddamperscreen.kv:19 main.py:629 main.py:662
 msgid "Add damper"
 msgstr ""
 
-#: main.py:721 main.py:752
-msgid "Edit selected damper"
+#: kv/adddamperscreen.kv:26 kv/editdamperscreen.kv:26
+msgid "Number of damper"
 msgstr ""
 
-#: main.py:724 main.py:753
-msgid "Delete selected dampers"
+#: kv/adddamperscreen.kv:28 kv/adddamperscreen.kv:59 kv/addtypescreen.kv:19
+#: kv/editdamperscreen.kv:28 kv/editdamperscreen.kv:59 kv/edittypescreen.kv:19
+msgid "Can't be empty"
 msgstr ""
 
-#: main.py:727 main.py:754
-msgid "Backup Database"
+#: kv/adddamperscreen.kv:36 kv/editdamperscreen.kv:37
+msgid "Type:"
 msgstr ""
 
-#: main.py:730 main.py:755
-msgid "Restore Database"
+#: kv/adddamperscreen.kv:41
+msgid "Add types"
 msgstr ""
 
-#: main.py:733 main.py:756
-msgid "Clear DB"
+#: kv/adddamperscreen.kv:57 kv/editdamperscreen.kv:57
+msgid "Location"
 msgstr ""
 
-#: main.py:736 main.py:757
-msgid "Language"
+#: kv/adddamperscreen.kv:65 kv/editdamperscreen.kv:65
+msgid "Is released:"
 msgstr ""
 
-#: main.py:739 main.py:758
-msgid "Change theme"
+#: kv/adddamperscreen.kv:75 kv/editdamperscreen.kv:75
+msgid "Notes"
 msgstr ""
 
-#: main.py:742 main.py:759
-msgid "Exit"
+#: kv/adddamperscreen.kv:80 kv/addtypescreen.kv:25
+msgid "Add"
 msgstr ""
 
-#: main.py:763 main.py:780
-msgid "By 'number'"
+#: kv/addtypescreen.kv:10
+msgid "Add damper type"
 msgstr ""
 
-#: main.py:766 main.py:781
-msgid "By 'location'"
+#: kv/addtypescreen.kv:17 kv/edittypescreen.kv:17
+msgid "Type of damper"
 msgstr ""
 
-#: main.py:769 main.py:782
-msgid "By 'check date'"
+#: kv/deleteedittypescreen.kv:9 main.py:626 main.py:661
+msgid "Delete/Edit type"
 msgstr ""
 
-#: main.py:772 main.py:783
-msgid "By 'is released'"
+#: kv/editdamperscreen.kv:19
+msgid "Edit damper"
 msgstr ""
 
-#: main.py:775 main.py:784
-msgid "By 'no order'"
+#: kv/editdamperscreen.kv:80 kv/edittypescreen.kv:25
+msgid "Edit"
 msgstr ""
 
-#: main.py:878
-msgid "Tap BACK again to exit"
+#: kv/edittypescreen.kv:10
+msgid "Edit type"
 msgstr ""
 
-#: main.py:920
-msgid "Can't get dampers from the DB"
+#: kv/homescreen.kv:8
+msgid "Search"
 msgstr ""
 
-#: main.py:966
-msgid "No dampers in the DB"
+#: kv/mycomponents.kv:42 main.py:614
+msgid "Dampers"
 msgstr ""
 
-#: main.py:1044
-msgid "Backup file saved"
+#: main.py:108 main.py:139
+msgid "Fill the field"
 msgstr ""
 
-#: main.py:1056
-msgid "Backup file restored"
+#: main.py:117 main.py:148 main.py:359 main.py:367 main.py:465 main.py:475
+msgid "{} already exists"
 msgstr ""
 
-#: main.py:1099
-msgid "Delete damper"
+#: main.py:124
+msgid "Added new type: {}"
 msgstr ""
 
-#: main.py:1101 main.py:1117
+#: main.py:137
+msgid "Nothing to change"
+msgstr ""
+
+#: main.py:155 main.py:484
+msgid "Edited"
+msgstr ""
+
+#: main.py:167 main.py:181 main.py:617 main.py:658
+msgid "Select all"
+msgstr ""
+
+#: main.py:170 main.py:182 main.py:620 main.py:659
+msgid "Cancel all selection"
+msgstr ""
+
+#: main.py:173 main.py:183
+msgid "Edit selected type"
+msgstr ""
+
+#: main.py:176 main.py:184
+msgid "Delete selected types"
+msgstr ""
+
+#: main.py:213 main.py:321 main.py:417
+msgid "No Types in the DB"
+msgstr ""
+
+#: main.py:243
+msgid "Delete damper type"
+msgstr ""
+
+#: main.py:245 main.py:262 main.py:1015 main.py:1031
 msgid "Delete"
 msgstr ""
 
-#: main.py:1102 main.py:1156
+#: main.py:246 main.py:1016 main.py:1070
 msgid "Cancel"
 msgstr ""
 
-#: main.py:1105
+#: main.py:249
+msgid ""
+"This action will delete selected types\n"
+"and all records in the dampers\n"
+"where these types are from the Database.\n"
+"Do you really want to do this?"
+msgstr ""
+
+#: main.py:273 main.py:1043
+msgid "Deleted"
+msgstr ""
+
+#: main.py:281 main.py:1049
+msgid "Select one for editing"
+msgstr ""
+
+#: main.py:347 main.py:452
+msgid "First add damper types into the DB"
+msgstr ""
+
+#: main.py:350 main.py:455
+msgid "Fill all needed fields"
+msgstr ""
+
+#: main.py:374
+msgid "Added new damper: {}"
+msgstr ""
+
+#: main.py:537
+msgid "Can't translate the App"
+msgstr ""
+
+#: main.py:623 main.py:660
+msgid "Add type"
+msgstr ""
+
+#: main.py:632 main.py:663
+msgid "Edit selected damper"
+msgstr ""
+
+#: main.py:635 main.py:664
+msgid "Delete selected dampers"
+msgstr ""
+
+#: main.py:638 main.py:665
+msgid "Backup Database"
+msgstr ""
+
+#: main.py:641 main.py:666
+msgid "Restore Database"
+msgstr ""
+
+#: main.py:644 main.py:667
+msgid "Clear DB"
+msgstr ""
+
+#: main.py:647 main.py:668
+msgid "Language"
+msgstr ""
+
+#: main.py:650 main.py:669
+msgid "Change theme"
+msgstr ""
+
+#: main.py:653 main.py:670
+msgid "Exit"
+msgstr ""
+
+#: main.py:674 main.py:691
+msgid "By 'number'"
+msgstr ""
+
+#: main.py:677 main.py:692
+msgid "By 'location'"
+msgstr ""
+
+#: main.py:680 main.py:693
+msgid "By 'check date'"
+msgstr ""
+
+#: main.py:683 main.py:694
+msgid "By 'is released'"
+msgstr ""
+
+#: main.py:686 main.py:695
+msgid "By 'no order'"
+msgstr ""
+
+#: main.py:789
+msgid "Tap BACK again to exit"
+msgstr ""
+
+#: main.py:831
+msgid "Can't get dampers from the DB"
+msgstr ""
+
+#: main.py:877
+msgid "No dampers in the DB"
+msgstr ""
+
+#: main.py:958
+msgid "Backup file saved"
+msgstr ""
+
+#: main.py:970
+msgid "Backup file restored"
+msgstr ""
+
+#: main.py:1013
+msgid "Delete damper"
+msgstr ""
+
+#: main.py:1019
 msgid ""
 "This action will delete selected dampers\n"
 "from the Database.\n"
 "Do you really want to do this?"
 msgstr ""
 
-#: main.py:1126
-msgid "DeleteDamperError"
-msgstr ""
-
-#: main.py:1129
-msgid "Deleted"
-msgstr ""
-
-#: main.py:1135
-msgid "Select one for editing"
-msgstr ""
-
-#: main.py:1153
+#: main.py:1067
 msgid "Clear Database"
 msgstr ""
 
-#: main.py:1155 main.py:1167
+#: main.py:1069 main.py:1081
 msgid "Clear"
 msgstr ""
 
-#: main.py:1159
+#: main.py:1073
 msgid ""
 "[color={}]This action will delete \n"
 "[b]ALL[/b] data from the Database.\n"
 "Do you really want to do this?[/color]"
 msgstr ""
 
-#: main.py:1172
-msgid "ClearDBError"
-msgstr ""
-
-#: main.py:1174
+#: main.py:1088
 msgid "Cleared"
 msgstr ""
 

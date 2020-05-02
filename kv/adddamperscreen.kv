@@ -16,16 +16,16 @@
         orientation: "vertical"
         AddEditToolbar:
             id: tb_addedit
-            toolbar_title: "Add damper"
+            toolbar_title: app.tr._("Add damper")
         GridLayout:
             cols: 1
             padding: dp(7)
             spacing: dp(15)
             MDTextField:
                 id: tf_number
-                hint_text: "Number of damper"
+                hint_text: app.tr._("Number of damper")
                 required: True
-                helper_text: "Can't be empty"
+                helper_text: app.tr._("Can't be empty")
                 helper_text_mode: "on_error"
                 font_size: root.my_font_size
             BoxLayout:
@@ -33,12 +33,12 @@
                 MDLabel:
                     size_hint_x: None
                     width: dp(100)
-                    text: "Type:"
+                    text: app.tr._("Type:")
                     font_size: root.my_font_size - 5
                 MDDropDownItem:
                     id: dditm_type
                     dropdown_bg: [1, 1, 1, 1]
-                    on_release: root.menu.open() if root.menu else toast("Add types")
+                    on_release: root.menu.open() if root.menu else toast(app.tr._("Add types"))
             ChooseDate:
                 canvas.before:
                     Color:
@@ -54,15 +54,15 @@
                 on_release: root.show_datepicker()
             MDTextField:
                 id: tf_location
-                hint_text: "Location"
+                hint_text: app.tr._("Location")
                 required: True
-                helper_text: "Can't be empty"
+                helper_text: app.tr._("Can't be empty")
                 helper_text_mode: "on_error"
                 font_size: root.my_font_size
             BoxLayout:
                 size_hint_y: .1
                 MDLabel:
-                    text: "Is released:"
+                    text: app.tr._("Is released:")
                     size_hint_x: None
                     width: dp(150)
                     font_size: root.my_font_size - 5
@@ -72,12 +72,12 @@
                     width: dp(50)
             MDTextField:
                 id: tf_notes
-                hint_text: "Notes"
+                hint_text: app.tr._("Notes")
                 font_size: root.my_font_size
             FloatLayout:
                 MDRaisedButton:
                     pos_hint: {"center_x": .5, "top": 1}
-                    text: "Add"
+                    text: app.tr._("Add")
                     size_hint: .8, .4
                     on_release:
                         root.add_damper(tf_number.text.strip().replace(" ", ""), dditm_type.text, lbl_choose_date.text, tf_location.text.strip().replace(" ", ""), chbx_isreleased.active, tf_notes.text.strip())

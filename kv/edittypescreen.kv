@@ -7,21 +7,21 @@
         orientation: "vertical"
         AddEditToolbar:
             id: tb_addedit
-            toolbar_title: "Edit type"
+            toolbar_title: app.tr._("Edit type")
         GridLayout:
             cols: 1
             padding: dp(7)
             spacing: dp(15)
             MDTextField:
                 id: tf_type
-                hint_text: "Type of damper"
+                hint_text: app.tr._("Type of damper")
                 required: True
-                helper_text: "Can't be empty"
+                helper_text: app.tr._("Can't be empty")
                 helper_text_mode: "on_error"
                 font_size: root.my_font_size
             FloatLayout:
                 MDRaisedButton:
                     pos_hint: {"center_x": .5, "top": 1}
-                    text: "Edit"
+                    text: app.tr._("Edit")
                     size_hint: .8, .15
                     on_release: root.edit_type(tf_type.text.strip())

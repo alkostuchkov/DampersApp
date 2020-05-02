@@ -105,7 +105,7 @@ class AddTypeScreen(Screen):
     def add_type(self, d_type):
         """Add d_type into DB."""
         if not d_type:  # if empty string.
-            toast("Fill the field")
+            toast(MDApp.get_running_app().tr._("Fill the field"))
         else:
             damper = Damper()
             try:
@@ -114,14 +114,14 @@ class AddTypeScreen(Screen):
                 toast("IsTypeExistsError")
             else:
                 if is_exists:
-                    toast("{} already exists".format(d_type))
+                    toast(MDApp.get_running_app().tr._("{} already exists").format(d_type))
                 else:
                     try:
                         damper.add_type(d_type)
                     except sqlite3.DatabaseError:
                         toast("AddTypeError")
                     else:
-                        toast("Added new type: {}".format(d_type))
+                        toast(MDApp.get_running_app().tr._("Added new type: {}").format(d_type))
 
 
 class EditTypeScreen(Screen):
@@ -134,9 +134,9 @@ class EditTypeScreen(Screen):
 
     def edit_type(self, new_type):
         if self.old_type == new_type:
-            toast("Nothing to change")
+            toast(MDApp.get_running_app().tr._("Nothing to change"))
         elif not new_type:  # if empty string.
-            toast("Fill the field")
+            toast(MDApp.get_running_app().tr._("Fill the field"))
         else:
             damper = Damper()
             try:
@@ -145,14 +145,14 @@ class EditTypeScreen(Screen):
                 toast("IsTypeExistsError")
             else:
                 if is_exists:
-                    toast("{} already exists".format(new_type))
+                    toast(MDApp.get_running_app().tr._("{} already exists").format(new_type))
                 else:
                     try:
                         damper.edit_type(self.old_type, new_type)
                     except sqlite3.DatabaseError:
                         toast("EditTypeError")
                     else:
-                        toast("Edited")
+                        toast(MDApp.get_running_app().tr._("Edited"))
 
 
 class DeleteEditTypeScreen(Screen):
@@ -164,24 +164,24 @@ class DeleteEditTypeScreen(Screen):
         self.d_types = []  # All d_types from the DB.
         self.menu_dots = None
         self.menu_items_dots = [
-            {"text": "Select all",
+            {"text": MDApp.get_running_app().tr._("Select all"),
              "icon": "select-all"},
 
-            {"text": "Cancel all selection",
+            {"text": MDApp.get_running_app().tr._("Cancel all selection"),
              "icon": "select-off"},
 
-            {"text": "Edit selected type",
+            {"text": MDApp.get_running_app().tr._("Edit selected type"),
              "icon": "square-edit-outline"},
 
-            {"text": "Delete selected types",
+            {"text": MDApp.get_running_app().tr._("Delete selected types"),
              "icon": "delete-outline"}
         ]
         # Dict to process callback_menu_dots.
         self.dict_menu_dots_funcs = {
-            "Select all": self.select_all,
-            "Cancel all selection": self.cancel_all_selection,
-            "Edit selected type": self.edit_selected_type,
-            "Delete selected types": self.show_deleting_dialog,
+            MDApp.get_running_app().tr._("Select all"): self.select_all,
+            MDApp.get_running_app().tr._("Cancel all selection"): self.cancel_all_selection,
+            MDApp.get_running_app().tr._("Edit selected type"): self.edit_selected_type,
+            MDApp.get_running_app().tr._("Delete selected types"): self.show_deleting_dialog,
         }
 
     def callback_menu_dots(self, instance):
@@ -210,7 +210,7 @@ class DeleteEditTypeScreen(Screen):
             toast("GetTypesError")
         else:  # Read DB and output data into dampers_container.
             if not self.d_types:
-                toast("No Types in the DB")
+                toast(MDApp.get_running_app().tr._("No Types in the DB"))
             else:
                 for d_type in self.d_types:
                     a_type_list_item = TypeListItem(text=d_type)
@@ -240,16 +240,16 @@ class DeleteEditTypeScreen(Screen):
         """Show delete type dialog."""
         if self.selected_types:
             dialog = MDDialog(
-                title="Delete damper type",
+                title=MDApp.get_running_app().tr._("Delete damper type"),
                 size_hint=(.7, .4),
-                text_button_ok="Delete",
-                text_button_cancel="Cancel",
+                text_button_ok=MDApp.get_running_app().tr._("Delete"),
+                text_button_cancel=MDApp.get_running_app().tr._("Cancel"),
                 auto_dismiss=False,
                 events_callback=self.delete_selected_types,
-                text="This action will delete selected types"
+                text=MDApp.get_running_app().tr._("This action will delete selected types"
                      "\nand all records in the dampers"
                      "\nwhere these types are from the Database."
-                     "\nDo you really want to do this?"
+                     "\nDo you really want to do this?")
             )
 
             dialog.open()
@@ -259,7 +259,7 @@ class DeleteEditTypeScreen(Screen):
         Delete selected d_types
         from DB and types_container.
         """
-        if text_of_selection == "Delete":
+        if text_of_selection == MDApp.get_running_app().tr._("Delete"):
             # if self.selected_types:
             for d_type in self.selected_types:
                 damper = Damper()
@@ -270,7 +270,7 @@ class DeleteEditTypeScreen(Screen):
                 else:
                     self.types_container.remove_widget(d_type)
                     self.d_types.remove(d_type.text)
-                    toast("Deleted")
+                    toast(MDApp.get_running_app().tr._("Deleted"))
             # After all deleting clear self.selected_types.
             self.selected_types.clear()
 
@@ -278,7 +278,7 @@ class DeleteEditTypeScreen(Screen):
         """Edit selected type."""
         if self.selected_types:  # if self.selected_types is not empty.
             if len(self.selected_types) > 1:
-                toast("Select one for editing")
+                toast(MDApp.get_running_app().tr._("Select one for editing"))
             else:
                 MDApp.get_running_app().root.ids["edit_type_screen"].ids["tf_type"].text = self.selected_types[0].text
                 MDApp.get_running_app().screen_manager.current = "edit_type_screen"
@@ -318,7 +318,7 @@ class AddDamperScreen(Screen):
             toast("GetTypesError")
         else:  # Read DB and output data into dampers_container.
             if not self.d_types:
-                toast("No Types in the DB")
+                toast(MDApp.get_running_app().tr._("No Types in the DB"))
             else:
                 menu_items = [{"text": d_type} for d_type in self.d_types]
                 self.menu = MDDropdownMenu(
@@ -344,10 +344,10 @@ class AddDamperScreen(Screen):
             check_date = mo.group()
 
         if not self.d_types:
-            toast("First add damper types into the DB")
+            toast(MDApp.get_running_app().tr._("First add damper types into the DB"))
         else:
             if not number or not location:
-                toast("Fill all needed fields")
+                toast(MDApp.get_running_app().tr._("Fill all needed fields"))
             else:
                 damper = Damper()
                 try:
@@ -356,7 +356,7 @@ class AddDamperScreen(Screen):
                     toast("IsNumberExistsError")
                 else:
                     if is_exists:
-                        toast("{} already exists".format(number))
+                        toast(MDApp.get_running_app().tr._("{} already exists").format(number))
                     else:
                         try:
                             is_exists = damper.is_the_location_exists(location)
@@ -364,14 +364,14 @@ class AddDamperScreen(Screen):
                             toast("IsLocationExistsError")
                         else:
                             if is_exists:
-                                toast("{} already exists".format(location))
+                                toast(MDApp.get_running_app().tr._("{} already exists").format(location))
                             else:
                                 try:
                                     damper.add_damper(number, d_type, check_date, location, is_released, notes)
                                 except sqlite3.DatabaseError:
                                     toast("AddDamperError")
                                 else:
-                                    toast("Added new damper: {}".format(number))
+                                    toast(MDApp.get_running_app().tr._("Added new damper: {}").format(number))
 
     def show_datepicker(self, *args):
         picker = MDDatePicker(callback=self.got_date)
@@ -414,7 +414,7 @@ class EditDamperScreen(Screen):
             toast("GetTypesError")
         else:  # Read DB and output data into dampers_container.
             if not self.d_types:
-                toast("No Types in the DB")
+                toast(MDApp.get_running_app().tr._("No Types in the DB"))
             else:
                 menu_items = [{"text": d_type} for d_type in self.d_types]
                 self.menu = MDDropdownMenu(
@@ -449,10 +449,10 @@ class EditDamperScreen(Screen):
         self.is_the_number_exists = False
         self.is_the_location_exists = False
         if not self.d_types:  # TODO: delete if doesn't need.
-            toast("First add damper types into the DB")
+            toast(MDApp.get_running_app().tr._("First add damper types into the DB"))
         else:
             if not new_number or not new_location:
-                toast("Fill all needed fields")
+                toast(MDApp.get_running_app().tr._("Fill all needed fields"))
             else:
                 damper = Damper()
                 if new_number != self.old_number:  # if equal (the same damper) can be updated!
@@ -462,7 +462,7 @@ class EditDamperScreen(Screen):
                         toast("IsNumberExistsError")
                     else:
                         if self.is_the_number_exists:
-                            toast("{} already exists".format(new_number))
+                            toast(MDApp.get_running_app().tr._("{} already exists").format(new_number))
                 # To avoid itersetion of toasts already exists for number and location
                 # added (and not self.is_the_number_exists).
                 if new_location != self.old_location and not self.is_the_number_exists:  # if equal (the same damper) can be updated!
@@ -472,7 +472,7 @@ class EditDamperScreen(Screen):
                         toast("IsLocationExistsError")
                     else:
                         if self.is_the_location_exists:
-                            toast("{} already exists".format(new_location))
+                            toast(MDApp.get_running_app().tr._("{} already exists").format(new_location))
 
                 if not self.is_the_number_exists and not self.is_the_location_exists:
                     try:
@@ -481,7 +481,7 @@ class EditDamperScreen(Screen):
                     except sqlite3.DatabaseError:
                         toast("EditDamperError")
                     else:
-                        toast("Edited")
+                        toast(MDApp.get_running_app().tr._("Edited"))
 
     def show_datepicker(self, *args):
         picker = MDDatePicker(callback=self.got_date)
@@ -534,7 +534,7 @@ class Lang(Observable):
             for func, largs, kwargs in self.observers:
                 func(largs, None, None)
         except:
-            pass
+            toast(MDApp.get_running_app().tr._("Can't translate the App"))
 
 
 # Instantiate an instance of Lang.
@@ -1037,7 +1037,7 @@ class MainApp(MDApp):
                 try:
                     damper.delete_damper(damper_number)
                 except sqlite3.DatabaseError:
-                    toast(self.tr._("DeleteDamperError"))
+                    toast("DeleteDamperError")
                 else:
                     self.dampers_container.remove_widget(selected_damper)
             toast(self.tr._("Deleted"))
@@ -1083,7 +1083,7 @@ class MainApp(MDApp):
             try:
                 damper.clear_db()
             except sqlite3.DatabaseError:
-                toast(self.tr._("ClearDBError"))
+                toast("ClearDBError")
             else:
                 toast(self.tr._("Cleared"))
                 # Delay for showing toast("Cleared")
