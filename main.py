@@ -767,6 +767,17 @@ class MainApp(MDApp):
         if not self.is_first_started:
             self.tr.switch_lang(lang)
 
+            dialog = MDDialog(
+                title=self.tr._("Change language"),
+                size_hint=(.7, .4),
+                text_button_ok=self.tr._("Ok"),
+                auto_dismiss=False,
+                events_callback=self.stop,
+                text=self.tr._("You have to restart the app"
+                               "\nto change the language completely.")
+            )
+            dialog.open()
+
     def avoid_multi_lang_choice(self, chosen_checkbox):
         """
         Reset right_checkbox_lang active for all languages

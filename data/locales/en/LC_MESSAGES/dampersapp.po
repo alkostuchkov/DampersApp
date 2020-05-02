@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2020-05-02 11:19++03\n"
+"POT-Creation-Date: 2020-05-02 13:22++03\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -132,11 +132,11 @@ msgstr ""
 msgid "Delete damper type"
 msgstr ""
 
-#: main.py:245 main.py:262 main.py:1015 main.py:1031
+#: main.py:245 main.py:262 main.py:1026 main.py:1042
 msgid "Delete"
 msgstr ""
 
-#: main.py:246 main.py:1016 main.py:1070
+#: main.py:246 main.py:1027 main.py:1081
 msgid "Cancel"
 msgstr ""
 
@@ -148,11 +148,11 @@ msgid ""
 "Do you really want to do this?"
 msgstr ""
 
-#: main.py:273 main.py:1043
+#: main.py:273 main.py:1054
 msgid "Deleted"
 msgstr ""
 
-#: main.py:281 main.py:1049
+#: main.py:281 main.py:1060
 msgid "Select one for editing"
 msgstr ""
 
@@ -224,53 +224,67 @@ msgstr ""
 msgid "By 'no order'"
 msgstr ""
 
-#: main.py:789
+#: main.py:771
+msgid "Change language"
+msgstr ""
+
+#: main.py:773
+msgid "Ok"
+msgstr ""
+
+#: main.py:776
+msgid ""
+"You have to restart the app\n"
+"to change language completely."
+msgstr ""
+
+#: main.py:800
 msgid "Tap BACK again to exit"
 msgstr ""
 
-#: main.py:831
+#: main.py:842
 msgid "Can't get dampers from the DB"
 msgstr ""
 
-#: main.py:877
+#: main.py:888
 msgid "No dampers in the DB"
 msgstr ""
 
-#: main.py:958
+#: main.py:969
 msgid "Backup file saved"
 msgstr ""
 
-#: main.py:970
+#: main.py:981
 msgid "Backup file restored"
 msgstr ""
 
-#: main.py:1013
+#: main.py:1024
 msgid "Delete damper"
 msgstr ""
 
-#: main.py:1019
+#: main.py:1030
 msgid ""
 "This action will delete selected dampers\n"
 "from the Database.\n"
 "Do you really want to do this?"
 msgstr ""
 
-#: main.py:1067
+#: main.py:1078
 msgid "Clear Database"
 msgstr ""
 
-#: main.py:1069 main.py:1081
+#: main.py:1080 main.py:1092
 msgid "Clear"
 msgstr ""
 
-#: main.py:1073
+#: main.py:1084
 msgid ""
 "[color={}]This action will delete \n"
 "[b]ALL[/b] data from the Database.\n"
 "Do you really want to do this?[/color]"
 msgstr ""
 
-#: main.py:1088
+#: main.py:1099
 msgid "Cleared"
 msgstr ""
 
