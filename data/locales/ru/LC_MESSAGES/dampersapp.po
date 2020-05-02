@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2020-05-02 10:41++03\n"
-"PO-Revision-Date: 2020-05-02 10:46+0300\n"
+"POT-Creation-Date: 2020-05-02 11:19++03\n"
+"PO-Revision-Date: 2020-05-02 11:31+0300\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -63,7 +63,9 @@ msgstr "Тип гасителя"
 
 #: kv/deleteedittypescreen.kv:9 main.py:626 main.py:661
 msgid "Delete/Edit type"
-msgstr "Удалить/Редактировать тип"
+msgstr ""
+"Удалить/\n"
+"Редактировать тип"
 
 #: kv/editdamperscreen.kv:19
 msgid "Edit damper"
@@ -80,6 +82,10 @@ msgstr "Редактировать тип"
 #: kv/homescreen.kv:8
 msgid "Search"
 msgstr "Поиск"
+
+#: kv/languagescreen.kv:7 main.py:647 main.py:668
+msgid "Language"
+msgstr "Язык"
 
 #: kv/mycomponents.kv:42 main.py:614
 msgid "Dampers"
@@ -196,10 +202,6 @@ msgstr "Восстановить базу данных"
 #: main.py:644 main.py:667
 msgid "Clear DB"
 msgstr "Очистить базу данных"
-
-#: main.py:647 main.py:668
-msgid "Language"
-msgstr "Язык"
 
 #: main.py:650 main.py:669
 msgid "Change theme"

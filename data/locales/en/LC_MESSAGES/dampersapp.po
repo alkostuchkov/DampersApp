@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2020-05-02 10:41++03\n"
+"POT-Creation-Date: 2020-05-02 11:19++03\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -78,6 +78,10 @@ msgstr ""
 
 #: kv/homescreen.kv:8
 msgid "Search"
+msgstr ""
+
+#: kv/languagescreen.kv:7 main.py:647 main.py:668
+msgid "Language"
 msgstr ""
 
 #: kv/mycomponents.kv:42 main.py:614
@@ -190,10 +194,6 @@ msgstr ""
 
 #: main.py:644 main.py:667
 msgid "Clear DB"
-msgstr ""
-
-#: main.py:647 main.py:668
-msgid "Language"
 msgstr ""
 
 #: main.py:650 main.py:669
