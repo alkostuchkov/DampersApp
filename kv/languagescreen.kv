@@ -19,8 +19,8 @@
                             icon: "data/images/us_rect.png"
                         MyRightCheckbox:
                             id: right_checkbox_en
+                            group: "lang"
                             on_release:
-                                app.avoid_multi_lang_choice(self)
                                 app.lang = "en"
                     LanguageListItem:
                         id: lang_li_ru
@@ -30,6 +30,6 @@
                             icon: "data/images/ru_rect.png"
                         MyRightCheckbox:
                             id: right_checkbox_ru
+                            group: "lang"
                             on_release:
-                                app.avoid_multi_lang_choice(self)
                                 app.lang = "ru"

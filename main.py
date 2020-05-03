@@ -778,17 +778,6 @@ class MainApp(MDApp):
             )
             dialog.open()
 
-    def avoid_multi_lang_choice(self, chosen_checkbox):
-        """
-        Reset right_checkbox_lang active for all languages
-        and remain only one checkbox active.
-        """
-        for lang in self.lang_checkboxes_dict:
-            if self.lang_checkboxes_dict[lang] is not chosen_checkbox:
-                self.lang_checkboxes_dict[lang].active = False
-            else:
-                chosen_checkbox.active = True
-
     def key_input(self, window, key, scancode, codepoint, modifier):
         if key == 27:  # (the back button key is 27, codepoint is 270).
             if self.screen_manager.current != "home_screen":
