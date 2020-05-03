@@ -743,7 +743,6 @@ class MainApp(MDApp):
         """
         Store all right_checkbox_(lang) into the lang_checkboxes_dict
         to control which right_checkbox is chosen.
-        To avoid multi lang choice.
         """
         self.lang_checkboxes_dict["en"] = self.lang_screen.ids["right_checkbox_en"]
         self.lang_checkboxes_dict["ru"] = self.lang_screen.ids["right_checkbox_ru"]
@@ -777,17 +776,6 @@ class MainApp(MDApp):
                                "\nto change the language completely.")
             )
             dialog.open()
-
-    def avoid_multi_lang_choice(self, chosen_checkbox):
-        """
-        Reset right_checkbox_lang active for all languages
-        and remain only one checkbox active.
-        """
-        for lang in self.lang_checkboxes_dict:
-            if self.lang_checkboxes_dict[lang] is not chosen_checkbox:
-                self.lang_checkboxes_dict[lang].active = False
-            else:
-                chosen_checkbox.active = True
 
     def key_input(self, window, key, scancode, codepoint, modifier):
         if key == 27:  # (the back button key is 27, codepoint is 270).
