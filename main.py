@@ -1019,7 +1019,6 @@ class MainApp(MDApp):
                      "\nfrom the Database."
                      "\nDo you really want to do this?")
             )
-
             dialog.open()
 
     def delete_selected_dampers(self, text_of_selection, *args):
@@ -1040,6 +1039,7 @@ class MainApp(MDApp):
                 else:
                     self.dampers_container.remove_widget(selected_damper)
             toast(self.tr._("Deleted"))
+            self.get_dampers()
 
     def edit_selected_damper(self, *args):
         """Edit selected damper."""
