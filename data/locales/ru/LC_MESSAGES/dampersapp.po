@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: 2020-05-02 13:22++03\n"
-"PO-Revision-Date: 2020-05-02 13:32+0300\n"
+"PO-Revision-Date: 2020-05-06 16:42+0300\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -18,7 +18,7 @@ msgstr ""
 
 #: kv/adddamperscreen.kv:19 main.py:629 main.py:662
 msgid "Add damper"
-msgstr "Добавить гаситель"
+msgstr "Добавить ГГК"
 
 #: kv/adddamperscreen.kv:26 kv/editdamperscreen.kv:26
 msgid "Number of damper"
@@ -63,13 +63,11 @@ msgstr "Тип гасителя"
 
 #: kv/deleteedittypescreen.kv:9 main.py:626 main.py:661
 msgid "Delete/Edit type"
-msgstr ""
-"Удалить/\n"
-"Редактировать тип"
+msgstr "Удалить/Редакт. тип"
 
 #: kv/editdamperscreen.kv:19
 msgid "Edit damper"
-msgstr "Редактировать гаситель"
+msgstr "Редактировать ГГК"
 
 #: kv/editdamperscreen.kv:80 kv/edittypescreen.kv:25
 msgid "Edit"
@@ -121,11 +119,11 @@ msgstr "Отменить выделение"
 
 #: main.py:173 main.py:183
 msgid "Edit selected type"
-msgstr "Редактировать выбранный тип"
+msgstr "Редактировать тип"
 
 #: main.py:176 main.py:184
 msgid "Delete selected types"
-msgstr "Удалить выбранные типы"
+msgstr "Удалить выбранные"
 
 #: main.py:213 main.py:321 main.py:417
 msgid "No Types in the DB"
@@ -185,23 +183,23 @@ msgstr "Добавить тип"
 
 #: main.py:632 main.py:663
 msgid "Edit selected damper"
-msgstr "Редактировать выбранный гаситель"
+msgstr "Редактировать ГГК"
 
 #: main.py:635 main.py:664
 msgid "Delete selected dampers"
-msgstr "Удалить выбранные гасители"
+msgstr "Удалить выбранные"
 
 #: main.py:638 main.py:665
 msgid "Backup Database"
-msgstr "Сохранить базу данных"
+msgstr "Сохранить БД"
 
 #: main.py:641 main.py:666
 msgid "Restore Database"
-msgstr "Восстановить базу данных"
+msgstr "Восстановить БД"
 
 #: main.py:644 main.py:667
 msgid "Clear DB"
-msgstr "Очистить базу данных"
+msgstr "Очистить БД"
 
 #: main.py:650 main.py:669
 msgid "Change theme"

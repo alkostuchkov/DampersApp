@@ -200,8 +200,10 @@ class DeleteEditTypeScreen(Screen):
             caller=self.ids["tb_deleteedittype"].ids["ibtn_dots"],
             items=self.menu_items_dots,
             callback=self.callback_menu_dots,
-            # position="auto",
-            width_mult=5
+            # position="bottom",
+            hor_growth="left",
+            ver_growth="down",
+            width_mult=7
         )
         damper = Damper()
         try:
@@ -684,7 +686,8 @@ class MainApp(MDApp):
              "icon": "check-outline"},
 
             {"text": self.tr._("By 'no order'"),
-             "icon": "sort-variant-remove"}
+             "icon": "not-equal-variant"}
+             # "icon": "sort-variant-remove"}
         ]
         # Dict to process callback_menu_sort like switch in C++..
         self.dict_menu_sort_funcs = {
@@ -721,15 +724,19 @@ class MainApp(MDApp):
             caller=self.home_screen.ids["tb_home"].ids["ibtn_dots"],
             items=self.menu_items_dots,
             callback=self.callback_menu_dots,
-            # position="auto",
-            width_mult=5
+            position="bottom",
+            hor_growth="right",
+            # ver_growth="down",
+            width_mult=10
         )
         self.menu_sort = MDDropdownMenu(
             caller=self.home_screen.ids["tb_home"].ids["ibtn_sort"],
             items=self.menu_items_sort,
             callback=self.callback_menu_sort,
-            # position="bottom",
-            width_mult=5
+            position="bottom",
+            hor_growth="right",
+            # ver_growth="up",
+            width_mult=7
         )
         self.change_toolbar_theme()
 
