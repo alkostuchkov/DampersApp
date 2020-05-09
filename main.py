@@ -40,10 +40,7 @@ from damper import Damper
 
 # Turn on android keyboard
 # Config.set("kivy", "keyboard_mode", "system")
-Config.set("kivy", "keyboard_mode", "systemanddock")
-# The current target TextInput widget requesting the keyboard
-# is presented just above the soft keyboard.
-Window.softinput_mode = "below_target"
+# Config.set("kivy", "keyboard_mode", "systemanddock")
 
 
 class Container(BoxLayout):  # root widget
@@ -539,11 +536,6 @@ class Lang(Observable):
             toast(MDApp.get_running_app().tr._("Can't translate the App"))
 
 
-# Instantiate an instance of Lang.
-# tr = Lang(locale.getdefaultlocale()[0][:2])
-# tr = Lang("ru")
-
-
 class MainApp(MDApp):
     # Language: get system locale.
     lang = StringProperty(locale.getdefaultlocale()[0][:2])
@@ -571,6 +563,11 @@ class MainApp(MDApp):
         self.theme_style = "Light"
         # To avoid multi chosen right_checkbox_lang.
         self.lang_checkboxes_dict = dict()
+        # Handling the back button.
+        Window.bind(on_keyboard=self.key_input)
+        # The current target TextInput widget requesting the keyboard
+        # is presented just above the soft keyboard.
+        Window.softinput_mode = "below_target"
 
     def build_config(self, config):
         """Default config."""
@@ -698,7 +695,10 @@ class MainApp(MDApp):
             self.tr._("By 'no order'"): self.get_dampers
         }
         # Handling the back button.
-        Window.bind(on_keyboard=self.key_input)
+        # Window.bind(on_keyboard=self.key_input)
+        # The current target TextInput widget requesting the keyboard
+        # is presented just above the soft keyboard.
+        # Window.softinput_mode = "below_target"
 
         return Container()
 
