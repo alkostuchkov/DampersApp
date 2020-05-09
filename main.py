@@ -785,6 +785,13 @@ class MainApp(MDApp):
             dialog.open()
 
     def key_input(self, window, key, scancode, codepoint, modifier):
+        def reset_btn_back_clicked(*args):
+            """
+            Set is_back_clicked_once to False.
+            There was no double click on the button back for exit.
+            """
+            self.is_back_clicked_once = False
+
         if key == 27:  # (the back button key is 27, codepoint is 270).
             if self.screen_manager.current != "home_screen":
                 self.change_screen("home_screen")
@@ -793,18 +800,10 @@ class MainApp(MDApp):
             else:
                 self.is_back_clicked_once = True
                 toast(self.tr._("Tap BACK again to exit"), duration=1)
-                Clock.schedule_once(self.reset_btn_back_clicked, 3)
+                Clock.schedule_once(reset_btn_back_clicked, 3)
 
             return True
-        else:
-            return False
-
-    def reset_btn_back_clicked(self, *args):
-        """
-        Set is_back_clicked_once to False.
-        There was no double click on the button back for exit.
-        """
-        self.is_back_clicked_once = False
+        return False
 
     def callback_menu_sort(self, instance):
         """
