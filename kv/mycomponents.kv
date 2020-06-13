@@ -15,6 +15,9 @@
     MDIconButton:
         icon: "arrow-left"
         pos_hint: {"center_y": .5}
+        theme_text_color: "Custom"
+        text_color: 1, 1, 1, 1
+#        opposite_colors: True
         on_release: app.change_screen("home_screen")
     MDLabel:
         text: root.toolbar_title
@@ -23,6 +26,8 @@
         width: self.texture_size[0]
         text_size: None, None
         font_style: 'H6'
+        theme_text_color: "Custom"
+        text_color: 1, 1, 1, 1
 
 <DeleteEditTypeToolbar@AddEditToolbar>:
     Widget:
@@ -30,6 +35,9 @@
         id: ibtn_dots
         icon: "dots-vertical"
         pos_hint: {"center_y": .5}
+#        opposite_colors: True
+        theme_text_color: "Custom"
+        text_color: 1, 1, 1, 1
         on_release: app.root.ids["delete_edit_type_screen"].menu_dots.open()
 
 <HomeToolbar@MyToolbar>:
@@ -37,6 +45,9 @@
         id: ibtn_menu
         icon: "menu"
         pos_hint: {"center_y": .5}
+#        opposite_colors: True
+        theme_text_color: "Custom"
+        text_color: 1, 1, 1, 1
 #        on_release: app.menu_1.open()
     MDLabel:
         text: app.tr._("Dampers")
@@ -45,21 +56,32 @@
         width: self.texture_size[0]
         text_size: None, None
         font_style: 'H6'
+        theme_text_color: "Custom"
+        text_color: 1, 1, 1, 1
     Widget:
     MDIconButton:
         id: ibtn_search
         icon: "magnify"
         pos_hint: {"center_y": .5}
+#        opposite_colors: True
+        theme_text_color: "Custom"
+        text_color: 1, 1, 1, 1
         on_release: app.hide_search() if app.is_search_focused else app.show_search()
     MDIconButton:
         id: ibtn_sort
         icon: "sort-variant"
         pos_hint: {"center_y": .5}
+#        opposite_colors: True
+        theme_text_color: "Custom"
+        text_color: 1, 1, 1, 1
         on_release: app.menu_sort.open()
     MDIconButton:
         id: ibtn_dots
         icon: "dots-vertical"
         pos_hint: {"center_y": .5}
+#        opposite_colors: True
+        theme_text_color: "Custom"
+        text_color: 1, 1, 1, 1
         on_release: app.menu_dots.open()
 
 <TypeListItem>:

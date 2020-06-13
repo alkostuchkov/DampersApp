@@ -40,10 +40,7 @@ from damper import Damper
 
 # Turn on android keyboard
 # Config.set("kivy", "keyboard_mode", "system")
-Config.set("kivy", "keyboard_mode", "systemanddock")
-# The current target TextInput widget requesting the keyboard
-# is presented just above the soft keyboard.
-Window.softinput_mode = "below_target"
+# Config.set("kivy", "keyboard_mode", "systemanddock")
 
 
 class Container(BoxLayout):  # root widget
@@ -539,11 +536,6 @@ class Lang(Observable):
             toast(MDApp.get_running_app().tr._("Can't translate the App"))
 
 
-# Instantiate an instance of Lang.
-# tr = Lang(locale.getdefaultlocale()[0][:2])
-# tr = Lang("ru")
-
-
 class MainApp(MDApp):
     # Language: get system locale.
     lang = StringProperty(locale.getdefaultlocale()[0][:2])
@@ -571,6 +563,11 @@ class MainApp(MDApp):
         self.theme_style = "Light"
         # To avoid multi chosen right_checkbox_lang.
         self.lang_checkboxes_dict = dict()
+        # Handling the back button.
+        Window.bind(on_keyboard=self.key_input)
+        # The current target TextInput widget requesting the keyboard
+        # is presented just above the soft keyboard.
+        Window.softinput_mode = "below_target"
 
     def build_config(self, config):
         """Default config."""
@@ -698,7 +695,10 @@ class MainApp(MDApp):
             self.tr._("By 'no order'"): self.get_dampers
         }
         # Handling the back button.
-        Window.bind(on_keyboard=self.key_input)
+        # Window.bind(on_keyboard=self.key_input)
+        # The current target TextInput widget requesting the keyboard
+        # is presented just above the soft keyboard.
+        # Window.softinput_mode = "below_target"
 
         return Container()
 
@@ -785,6 +785,13 @@ class MainApp(MDApp):
             dialog.open()
 
     def key_input(self, window, key, scancode, codepoint, modifier):
+        def reset_btn_back_clicked(*args):
+            """
+            Set is_back_clicked_once to False.
+            There was no double click on the button back for exit.
+            """
+            self.is_back_clicked_once = False
+
         if key == 27:  # (the back button key is 27, codepoint is 270).
             if self.screen_manager.current != "home_screen":
                 self.change_screen("home_screen")
@@ -793,18 +800,10 @@ class MainApp(MDApp):
             else:
                 self.is_back_clicked_once = True
                 toast(self.tr._("Tap BACK again to exit"), duration=1)
-                Clock.schedule_once(self.reset_btn_back_clicked, 3)
+                Clock.schedule_once(reset_btn_back_clicked, 3)
 
             return True
-        else:
-            return False
-
-    def reset_btn_back_clicked(self, *args):
-        """
-        Set is_back_clicked_once to False.
-        There was no double click on the button back for exit.
-        """
-        self.is_back_clicked_once = False
+        return False
 
     def callback_menu_sort(self, instance):
         """
